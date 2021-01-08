@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MissionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass=MissionRepository::class)
@@ -60,6 +61,10 @@ class Mission
     public function getTitle(): ?string
     {
         return $this->title;
+    }
+    public function getSlug(): string
+    {
+        return (new Slugify())->slugify($this->title); 
     }
 
     public function setTitle(string $title): self
