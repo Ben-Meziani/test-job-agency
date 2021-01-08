@@ -53,6 +53,7 @@ class Mission
      */
     private $updated_at;
 
+
     public function getId(): ?int
     {
         return $this->id;

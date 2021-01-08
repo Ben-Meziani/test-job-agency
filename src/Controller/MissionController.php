@@ -38,7 +38,7 @@ class MissionController extends AbstractController
     //Vue en détail de la mission 
 
     /**
-     * @Route("/missions/{slug}-{id}", name="missionv.show", requirements={"slug": "[a-z0-9\-]*"})
+     * @Route("/missions/{slug}-{id}", name="mission.show", requirements={"slug": "[a-z0-9\-]*"})
      * @return Response
      */
     public function show(Mission $mission, string $slug): Response
@@ -52,7 +52,7 @@ class MissionController extends AbstractController
         }
         return $this->render('mission/show.html.twig', [
             'mission' => $mission,
-            'current_menu' => 'properties'
+            'current_menu' => 'missions'
             ]);
     }
 }

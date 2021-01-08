@@ -8,7 +8,24 @@
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, eius. Illo doloremque reiciendis placeat obcaecati debitis eum tempora quibusdam similique dolores dolorum assumenda tenetur, consequatur repellat fuga excepturi nesciunt modi?</p>
 </div>
 <div class="container">
- 
+    <div class="row flex">
+        
+        {% for mission in missions %}
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{{ path('mission.show', {id: mission.id, slug: mission.slug}) }}">{{ mission.title}}</a>
+                    </h5>
+                    <p class="card-text"> {{ mission.description }}</p>
+                    <p class="card-text"> {{ mission.city }}</p>
+                    <div class="text-primary" style="font-weight: bold; font-size: 2rem;"></div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
 </div>
 
 {% endblock %}
