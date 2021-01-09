@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MissionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MissionRepository::class)
@@ -19,9 +20,15 @@ class Mission
     private $id;
 
     /**
+     * @Assert\Length(min=5, max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $title;
+
+        /**
+     * @ORM\Column(type="integer")
+     */
+    private $salary;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -39,6 +46,7 @@ class Mission
     private $adress;
 
     /**
+     * @Assert\Regex("/^[0-9]{5}$/")
      * @ORM\Column(type="string", length=255)
      */
     private $postal_code;
@@ -73,6 +81,23 @@ class Mission
         $this->title = $title;
 
         return $this;
+    }
+
+    public function getSalary(): ?int
+    {
+        return $this->salary;
+    }
+
+    public function setSalary(int $salary): self
+    {
+        $this->salary = $salary;
+
+        return $this;
+    }
+
+    public function getFormattedPrice(): string
+    {
+        return number_format($this->price, 0, '', ' ');
     }
 
     public function getDescription(): ?string

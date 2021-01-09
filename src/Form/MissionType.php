@@ -6,6 +6,7 @@ use App\Entity\Mission;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MissionType extends AbstractType
 {
@@ -15,7 +16,7 @@ class MissionType extends AbstractType
             ->add('title', null, [
                 'label' => 'Titre'
             ])
-            ->add('description', null, [
+            ->add('description', TextareaType::class, [
                 'label' => 'Description'
             ])
             ->add('city', null, [
