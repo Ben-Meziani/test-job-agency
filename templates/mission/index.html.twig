@@ -14,7 +14,7 @@
               <div class="title">{{ mission.title }}</div>
               <div class="sub-title">{{ mission.city }}</div>
               <p>{{ mission.description }}</p>
-              <div class="btn"><button>Read more</button></div>
+              <a href="{{ path('mission.show', {id: mission.id, slug: mission.slug}) }}"><div class="btn"><button>Lire plus</button></div></a>
           </div>
       </div>
       </div>
