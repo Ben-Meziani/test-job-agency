@@ -3,20 +3,22 @@
 {% block title %}Toutes les missions{% endblock %}
 
 {% block body %}
+
+<div class="jumbotron">
     <div class="container">
-      {% for mission in missions %}
-      <div class="col-md-4">
-        <div class="card">
-          <div class="content">
-            <div class="title">{{ mission.title }}</div>
-            <div class="sub-title">{{ mission.city }}</div>
-            <p>{{ mission.description }}</p>
-            <div class="btn"><button>Read more</button></div>
-        </div>
+        <h1 class="mt-5 mb-5 text-center">Toutes les missions</h1>
+        {% for mission in missions %}
+        <div class="col-md-4">
+          <div class="card">
+            <div class="content">
+              <div class="title">{{ mission.title }}</div>
+              <div class="sub-title">{{ mission.city }}</div>
+              <p>{{ mission.description }}</p>
+              <div class="btn"><button>Read more</button></div>
+          </div>
+      </div>
+      </div>
+       {% endfor %}
     </div>
-    </div>
-     {% endfor %}
-    </div>
-
-
+  </div>
 {% endblock %}

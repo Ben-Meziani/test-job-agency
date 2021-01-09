@@ -100,7 +100,7 @@ public function edit(Mission $mission, Request $request)
 //Delete a mission
 
 /**
- *@Route("/admin/mission/{id}", name="admin.mission.delete", methods="DELETE")
+ *@Route("/admin/mission/{id}/delete", name="admin.mission.delete", methods="DELETE")
  * @param Mission $mission
  * @return \Symfony\Component\HttpFoundation\RedirectResponse
  */

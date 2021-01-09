@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Gérer les biens' %}
+
+{% block body %}
+
+<div class="container" mt-4>
+
+    <h1 class="mt-5 mb-5 text-center">Gérer les missions</h1>
+
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mission in missions %}
+            <tr>
+                <td>{{ mission.title }}</td>
+                <td>
+                    <a href="{{ path('admin.mission.edit', {id: mission.id})}}" class="btn btn-secondary">Editer</a>
+                    <form method="post" action="{{ path('admin.mission.delete', {id: mission.id}) }}"
+                        style="display: inline-block" onsubmit="return confirm('Etes-vous vraiment sûr ?')">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ mission.id) }}">
+                        <button class="btn btn-danger">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-right">
+        <a href="{{ path('admin.mission.new') }}" class="btn btn-primary">Créer un nouveau bien</a>
+    </div>
+</div>
+
+
+
+{% endblock %}
