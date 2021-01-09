@@ -18,7 +18,29 @@ class MissionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Mission::class);
     }
+    
+        /**
+     *
+     * @return Property[]
+     */
+    public function findAllVisible()
+    {
+        return $this->createQueryBuilder('p')
+        ->getQuery()
+        ->getResult();
+    }
 
+    /**
+     *
+     * @return Property[]
+     */
+    public function findLatest()
+    {
+        return $this->createQueryBuilder('p')
+        ->setMaxResults(10)
+        ->getQuery()
+        ->getResult();
+    } 
     // /**
     //  * @return Mission[] Returns an array of Mission objects
     //  */

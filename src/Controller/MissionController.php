@@ -27,12 +27,13 @@ class MissionController extends AbstractController
       $this->em = $em;
    }
     /**
-     * @Route("/missions", name="mission")
+     * @Route("/missions", name="mission.index")
      */
-    public function index(): Response
+    public function index(MissionRepository $repository): Response
     {
+        $missions = $repository->findAllVisible();
         return $this->render('mission/index.html.twig', [
-            'current_name' => 'missions',
+            'missions' => $missions,
         ]);
     }
     //Vue en détail de la mission 

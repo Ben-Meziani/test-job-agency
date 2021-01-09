@@ -14,7 +14,8 @@ class HomeController extends AbstractController
      */
     public function index(MissionRepository $repository): Response
     {
-        $missions = $repository->findAll();
+        //to see the 10 latest missions
+        $missions = $repository->findLatest();
         
         return $this->render('pages/home.html.twig', [
             'missions' => $missions,

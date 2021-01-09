@@ -3,23 +3,22 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-
+<div class="container">
 <h1>Agence d'interim</h1>
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, eius. Illo doloremque reiciendis placeat obcaecati debitis eum tempora quibusdam similique dolores dolorum assumenda tenetur, consequatur repellat fuga excepturi nesciunt modi?</p>
 
-<div class="container">
+
   <div class="slider owl-carousel">
     {% for mission in missions %}
-    <div class="card">
-          <div class="img"><img src="#" alt=""></div>
-    <div class="content">
-        <div class="title">{{ mission.title }}</div>
-              <div class="sub-title">Web Developer</div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit modi dolorem quis quae animi nihil minus sed unde voluptas cumque.</p>
-      <div class="btn"><button>Read more</button></div>
-    </div>
-  </div>
-      {% endfor %}
+      <div class="card">
+        <div class="content">
+          <div class="title">{{ mission.title }}</div>
+             <p>Ville : <div class="sub-title">{{ mission.city }}</div></p> 
+              <p>Description : <p>{{ mission.description }}</p></p>
+          <div class="btn"><button>Lire plus</button></div>
+        </div>
+      </div>
+   {% endfor %}
   </div>
 </div>
 
