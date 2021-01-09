@@ -24,7 +24,7 @@
           </ul>
           <ul class="navbar-nav mr-auto">
             <li class="nav-item ">
-              <a class="nav-link" {% if  current_menu is defined and current_menu == 'properties' %}active{% endif %} href="">S'inscrire</a>
+              <a class="nav-link" {% if  current_menu is defined and current_menu == 'properties' %}active{% endif %} href="{{ path('app_register') }}">S'inscrire</a>
             </li>
           </ul>
           <ul class="navbar-nav mr-auto">

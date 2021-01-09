@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Mission;
+use App\Form\ApplicationType;
 use App\Repository\MissionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,4 +57,37 @@ class MissionController extends AbstractController
             'current_menu' => 'missions'
             ]);
     }
+
+
+    /**
+     * @Route("/register", name="app_register")
+     */
+    public function application(Request $request): Response
+    {
+        $form = $this->createForm(ApplicationType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+
+            // recuperer la relation ManyToMany entre user et mission 
+            // set user_id + set mission_id set 
+
+            //user_id|mission_id|motivation letter
+
+            $user->setCv();
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            // do anything else you need here, like send an email
+
+
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
+    }
+    
+
+}
+
 }
