@@ -8,12 +8,16 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @Vich\Uploadable
  */
-class User implements UserInterface
+ class User implements UserInterface //,\Serializable
 {
     /**
      * @ORM\Id
@@ -24,6 +28,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(
+     *     message = "L'email '{{ value }}' n'est aps correct.")
      */
     private $email;
 
@@ -71,22 +77,73 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  * @Assert\File(
+     *     maxSize = "1624k",
+     *     mimeTypes = {"application/pdf", "application/x-pdf"},
+     *     mimeTypesMessage = "Veuillez télécharger que du format PDF")
      */
     private $cv;
 
     /**
+     * @Vich\UploadableField(mapping="cvs", fileNameProperty="cv")
+     */
+    private $cvFile;
+
+    /**
      * @ORM\Column(type="string", length=255)
+     *  @Assert\Regex("#^0[1-9]([-. ]?[0-9]{2}){4}$#")
      */
     private $phone;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $cvName;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Application::class, mappedBy="user")
      */
     private $applications;
 
+    
+    public function getCvFile()
+    {
+       return $this->cvFile;
+    }
+
+     /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $cvFile
+     */
+    public function setCvFile(?File $cvFile = null): void
+    {
+        $this->cvFile = $cvFile;
+        if ($cvFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function setCvName(?string $cvName): void
+    {
+        $this->cvName = $cvName;
+    }
+
+    public function getCvName(): ?string
+    {
+        return $this->cvName;
+    }
+
     public function __construct()
     {
         $this->applications = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -271,7 +328,7 @@ class User implements UserInterface
         return $this->cv;
     }
 
-    public function setCv(string $cv): self
+    public function setCv(?string $cv): self
     {
         $this->cv = $cv;
 
@@ -289,4 +346,23 @@ class User implements UserInterface
 
         return $this;
     }
+
+//     public function serialize() {
+
+// return serialize(array(
+// $this->id,
+// $this->name,
+// $this->password,
+// ));
+
+// }
+
+// public function unserialize($serialized) {
+
+// list (
+// $this->id,
+// $this->name,
+// $this->password,
+// ) = unserialize($serialized);
+// }
 }

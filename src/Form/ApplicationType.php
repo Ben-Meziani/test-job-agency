@@ -12,17 +12,9 @@ class ApplicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('lastname')
-            ->add('actualJob')
-            ->add('email')
-            ->add('address')
-            ->add('postalCode')
-            ->add('country')
-            ->add('cv')
             ->add('motivationLetter')
-            ->add('firstname')
-            ->add('phone')
+            ->add('user')
+            ->add('mission')
         ;
     }
 

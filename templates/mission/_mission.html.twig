@@ -1,0 +1,12 @@
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">
+            <a href="{{ path('mission.show', {slug: mission.slug, id: mission.id}) }}">
+                {{ mission.title }}
+            </a>
+        </h5>
+        <p class="card-text">{{ mission.description | nl2br }}</p>
+        <p class="card-text">{{ mission.city }} ({{ mission.postalCode }})</p>
+        <p class="text-primary" style="font-weight: bold;">Salaire : {{ mission.salary }} €</p>
+    </div>
+</div>

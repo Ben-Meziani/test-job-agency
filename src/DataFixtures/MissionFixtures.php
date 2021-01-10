@@ -16,7 +16,7 @@ class MissionFixtures extends Fixture
         //Fake data for users
         $faker = Faker\Factory::create("fr_FR");
 
-          for ($j = 0; $j < 20; $j++)
+          for ($j = 0; $j < 100; $j++)
           {
               $mission = new Mission();
 
