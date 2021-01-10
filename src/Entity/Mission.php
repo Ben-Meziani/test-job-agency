@@ -72,6 +72,8 @@ class Mission
     public function __construct()
     {
         $this->applications = new ArrayCollection();
+        $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
     }
 
 

@@ -60,3 +60,7 @@
 .card .content .btn button:hover{
   transform: scale(0.9);
 }
+
+a:active{
+  color:blue;
+}

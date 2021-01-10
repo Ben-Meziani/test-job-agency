@@ -13,6 +13,9 @@ class MissionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('salary', null, [
+                'label' => 'Salaire'
+            ])
             ->add('title', null, [
                 'label' => 'Titre'
             ])
@@ -27,12 +30,6 @@ class MissionType extends AbstractType
             ])
             ->add('postal_code', null, [
                 'label' => 'Code postal'
-            ])
-            ->add('created_at', null, [
-                'label' => 'Date de création'
-            ])
-            ->add('updated_at', null, [
-                'label' => 'Date de modification'
             ])
         ;
     }

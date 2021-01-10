@@ -17,7 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  * @Vich\Uploadable
  */
- class User implements UserInterface //,\Serializable
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id
@@ -106,13 +106,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
      */
     private $applications;
 
-    
+
     public function getCvFile()
     {
-       return $this->cvFile;
+        return $this->cvFile;
     }
 
-     /**
+    /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the update. If this
      * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
@@ -232,24 +232,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         return $this->applications;
     }
 
-    public function addApplication(Application $application): self
-    {
-        if (!$this->applications->contains($application)) {
-            $this->applications[] = $application;
-            $application->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeApplication(Application $application): self
-    {
-        if ($this->applications->removeElement($application)) {
-            $application->removeUser($this);
-        }
-
-        return $this;
-    }
 
     public function getName(): ?string
     {
@@ -347,22 +329,53 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         return $this;
     }
 
-//     public function serialize() {
 
-// return serialize(array(
-// $this->id,
-// $this->name,
-// $this->password,
-// ));
+    public function serialize()
+    {
+        $this->cvFile = base64_encode($this->cvFile);
+        
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
 
-// }
+    }
 
-// public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
+        $this->cvFile = base64_decode($this->cvFile); 
+        list (
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
+    }
 
-// list (
-// $this->id,
-// $this->name,
-// $this->password,
-// ) = unserialize($serialized);
-// }
+
+    public function addApplication(Application $application): self
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications[] = $application;
+            $application->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application): self
+    {
+        if ($this->applications->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getUser() === $this) {
+                $application->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

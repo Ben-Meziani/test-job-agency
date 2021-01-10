@@ -6,6 +6,7 @@ use App\Entity\Mission;
 use App\Form\ApplicationType;
 use App\Repository\MissionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,9 +32,17 @@ class MissionController extends AbstractController
     /**
      * @Route("/missions", name="mission.index")
      */
-    public function index(MissionRepository $repository): Response
-    {
-        $missions = $repository->findAllVisible();
+    public function index(MissionRepository $repository, Request $request, PaginatorInterface $paginator): Response
+    {   
+        //pagination
+        $data = $repository->findAllVisible();
+
+        $missions = $paginator->paginate(
+            $data, //on passe les données
+            $request->query->getInt('page', 1),
+            6
+        );
+
         return $this->render('mission/index.html.twig', [
             'missions' => $missions,
         ]);
