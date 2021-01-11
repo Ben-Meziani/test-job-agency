@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class MissionController extends AbstractController
 {
@@ -33,6 +34,7 @@ class MissionController extends AbstractController
     /**
      * @Route("/missions", name="mission.index")
      * @return \Symfony\Component\HttpFoundation\Response
+     * 
      */
     public function index(MissionRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {   
@@ -53,6 +55,7 @@ class MissionController extends AbstractController
 
     /**
      * @Route("/missions/{slug}-{id}", name="mission.show", requirements={"slug": "[a-z0-9\-]*"})
+     * @ParamConverter("mission", class="App\Entity\Mission")
      * @return Response
      */
     public function show(Mission $mission, string $slug, Request $request): Response
@@ -76,7 +79,7 @@ class MissionController extends AbstractController
             $this->em->persist($application);
             $this->em->flush();
             $this->addFlash('success', 'Votre candidature à bien été soumise');
-            return $this->redirectToRoute('mission.show', [
+            return $this->redirectToRoute('mission.index', [
                 'id' => $application->getId(),
                 'slug' => $application->getSlug()
             ]);

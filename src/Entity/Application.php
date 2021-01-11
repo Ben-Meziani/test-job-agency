@@ -34,6 +34,10 @@ class Application
      */
     private $mission;
 
+       /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     */
+    private $slug;
     /**
      * @ORM\Column(type="datetime")
      */
@@ -80,7 +84,7 @@ class Application
     }
     public function getSlug(): string
     {
-        return (new Slugify())->slugify($this->motivationLetter); 
+        return (new Slugify())->slugify($this->id); 
     }
 
     public function getMission(): ?Mission
@@ -115,6 +119,13 @@ class Application
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
