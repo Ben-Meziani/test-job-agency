@@ -15,17 +15,21 @@
                     <p>
                         {{ mission.description | nl2br }} 
                     </p>
-                    <a href="#" class="btn btn-danger d-flex justify-content-center">Postulez !</a>
-                    <div id="applicationForm" class="mt-4">
+               
+
+                      <div id="bouton" class="btn btn-danger" onclick="bascule('header');">bouton</div>
+                    <div id="header">
                     {{ form_start(form) }}
                         <div class="row">
                             <div class="col">{{ form_row(form.motivationLetter) }}</div>
                         </div>
                         {{ form_rest(form) }}
                         <div class="form-group">
-                            <button class="btn btn-primary">Soumettre</button>
+                            <button class="btn btn-primary">Soumettre</button
                         </div>
                     {{ form_end(form)}}
+                    </div>
+                    </div>
                     </div>
             </div>       
     </div>

@@ -12,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class MissionController extends AbstractController
 {
@@ -33,6 +32,7 @@ class MissionController extends AbstractController
    }
     /**
      * @Route("/missions", name="mission.index")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(MissionRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {   
@@ -53,7 +53,6 @@ class MissionController extends AbstractController
 
     /**
      * @Route("/missions/{slug}-{id}", name="mission.show", requirements={"slug": "[a-z0-9\-]*"})
-     * @ParamConverter("id", options={"id": "id"})
      * @return Response
      */
     public function show(Mission $mission, string $slug, Request $request): Response
