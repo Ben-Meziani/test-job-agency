@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Application;
 use App\Entity\Mission;
 use App\Form\ApplicationType;
 use App\Repository\MissionRepository;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class MissionController extends AbstractController
 {
@@ -51,10 +53,13 @@ class MissionController extends AbstractController
 
     /**
      * @Route("/missions/{slug}-{id}", name="mission.show", requirements={"slug": "[a-z0-9\-]*"})
+     * @ParamConverter("id", options={"id": "id"})
      * @return Response
      */
-    public function show(Mission $mission, string $slug): Response
-    {
+    public function show(Mission $mission, string $slug, Request $request): Response
+    { 
+      
+
         if ($mission->getSlug() !== $slug)
         {
             return $this->redirectToRoute('mission.show', [
@@ -62,42 +67,27 @@ class MissionController extends AbstractController
                 'slug' => $mission->getSlug()
             ], 301);
         }
-        return $this->render('mission/show.html.twig', [
-            'mission' => $mission,
-            'current_menu' => 'missions'
-            ]);
-    }
 
-
-    /**
-     * @Route("/register", name="app_register")
-     */
-    public function application(Request $request): Response
-    {
-        $form = $this->createForm(ApplicationType::class, $user);
+        $application = new Application();
+        $application->setMission($mission);
+        $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+        if($form->isSubmitted() && $form->isValid()){
+            $this->em->persist($application);
+            $this->em->flush();
+            $this->addFlash('success', 'Votre candidature à bien été soumise');
+            return $this->redirectToRoute('mission.show', [
+                'id' => $application->getId(),
+                'slug' => $application->getSlug()
+            ]);
+        }
 
-            // recuperer la relation ManyToMany entre user et mission 
-            // set user_id + set mission_id set 
-
-            //user_id|mission_id|motivation letter
-
-            $user->setCv();
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
-
-
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        return $this->render('mission/show.html.twig', [
+            'mission' => $mission,
+            'current_menu' => 'missions',
+            'form' => $form->createView()
+            ]);
     }
-    
-
-}
 
 }

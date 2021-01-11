@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,7 +18,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  * @Vich\Uploadable
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, Serializable
 {
     /**
      * @ORM\Id
@@ -333,7 +334,6 @@ class User implements UserInterface, \Serializable
     public function serialize()
     {
         $this->cvFile = base64_encode($this->cvFile);
-        
         return serialize(array(
             $this->id,
             $this->email,
@@ -346,7 +346,8 @@ class User implements UserInterface, \Serializable
 
     public function unserialize($serialized)
     {
-        $this->cvFile = base64_decode($this->cvFile); 
+        $this->cvFile = base64_decode($this->cvFile);
+ 
         list (
             $this->id,
             $this->email,

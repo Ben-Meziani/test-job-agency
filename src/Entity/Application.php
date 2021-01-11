@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ApplicationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
+
 
 /**
  * @ORM\Entity(repositoryClass=ApplicationRepository::class)
@@ -31,6 +33,22 @@ class Application
      * @ORM\ManyToOne(targetEntity=Mission::class, inversedBy="applications")
      */
     private $mission;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +78,10 @@ class Application
 
         return $this;
     }
+    public function getSlug(): string
+    {
+        return (new Slugify())->slugify($this->motivationLetter); 
+    }
 
     public function getMission(): ?Mission
     {
@@ -69,6 +91,30 @@ class Application
     public function setMission(?Mission $mission): self
     {
         $this->mission = $mission;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }
