@@ -51,7 +51,7 @@ public function new(Request $request)
     $mission = new Mission();
     $form = $this->createForm(MissionType::class, $mission);
     $form->handleRequest($request);
-    $mission->setCreatedAt(new DateTime());
+  // $mission->setCreatedAt(new DateTime());
     
     if ($form->isSubmitted() && $form->isValid())  {
         $this->em->persist($mission);

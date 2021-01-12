@@ -25,9 +25,8 @@ class MissionFixtures extends Fixture
                       ->setCity($faker->city)
                       ->setAdress($faker->address)
                       ->setPostalCode($faker->postCode)
-                      ->setCreatedAt($faker->DateTime)
-                      ->setUpdatedAt($faker->DateTime)
-                      ->setSalary($faker->randomNumber);
+                      ->setSalary($faker->randomNumber)
+                      ->setSlug($faker->Slug);
 
                       $manager->persist($mission);
           }

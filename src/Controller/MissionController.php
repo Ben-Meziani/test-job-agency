@@ -61,14 +61,14 @@ class MissionController extends AbstractController
     public function show(Mission $mission, string $slug, Request $request): Response
     { 
       
-
-        if ($mission->getSlug() !== $slug)
-        {
-            return $this->redirectToRoute('mission.show', [
-                'id' => $mission->getId(),
-                'slug' => $mission->getSlug()
-            ], 301);
-        }
+        //Je fais un slug 
+         if ($mission->getSlug() !== $slug)
+         {
+             return $this->redirectToRoute('mission.show', [
+                 'id' => $mission->getId(),
+                 'slug' => $mission->getSlug()
+             ], 301);
+         }
 
         $application = new Application();
         $application->setMission($mission);
@@ -79,7 +79,7 @@ class MissionController extends AbstractController
             $this->em->persist($application);
             $this->em->flush();
             $this->addFlash('success', 'Votre candidature à bien été soumise');
-            return $this->redirectToRoute('mission.index', [
+            return $this->redirectToRoute('admin.application.index', [
                 'id' => $application->getId(),
                 'slug' => $application->getSlug()
             ]);

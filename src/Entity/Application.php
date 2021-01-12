@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ApplicationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Cocur\Slugify\Slugify;
 
 
@@ -34,10 +35,12 @@ class Application
      */
     private $mission;
 
-       /**
-     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+ /**
+     * @Gedmo\Slug(fields={"motivationLetter"})
+     * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -82,9 +85,10 @@ class Application
 
         return $this;
     }
+    
     public function getSlug(): string
     {
-        return (new Slugify())->slugify($this->id); 
+        return $this->slug; 
     }
 
     public function getMission(): ?Mission
