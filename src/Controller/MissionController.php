@@ -32,7 +32,7 @@ class MissionController extends AbstractController
       $this->em = $em;
    }
     /**
-     * @Route("/missions", name="mission.index")
+     * @Route("/missio", name="mission.index")
      * @return \Symfony\Component\HttpFoundation\Response
      * 
      */
@@ -69,7 +69,7 @@ class MissionController extends AbstractController
                  'slug' => $mission->getSlug()
              ], 301);
          }
-
+        
         $application = new Application();
         $application->setMission($mission);
         $form = $this->createForm(ApplicationType::class, $application);
