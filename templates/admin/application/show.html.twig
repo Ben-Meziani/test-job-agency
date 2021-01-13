@@ -1,0 +1,62 @@
+
+
+
+{% extends 'base.html.twig' %}
+
+{% block title 'Gérer vos candidatures' %}
+
+{% block body %}
+
+<div class="container" mt-4>
+
+    <h1 class="mt-5 mb-5 text-center">Gérer vos candidatures</h1>
+
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
+/public/files/cvs/alan-bean.jpg
+
+
+<p class="blue">{{application.id}}</p>
+<p>{{application.mission.title}}</p>
+<p>{{application.mission.description}}</p>
+<p>{{application.user.name}}</p>
+<p>{{application.user.email}}</p>
+<p>{{application.motivationLetter}}</p>
+<p>{{application.user.cv}}</p>
+<p><a href="{{ asset('/files/cvs/' ~ application.user.cv) }}" download >Téléchager </a></p>
+
+<embed class='pdf' src="{{ asset('/files/cvs/' ~ application.user.cv) }}" 
+ type="application/pdf">
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <a href="{{ path('admin.application.edit', {id: application.id})}}" class="btn btn-secondary">Voir l'offre</a>
+                    <form method="post" action="{{ path('admin.application.delete', {id: application.id}) }}"
+                        style="display: inline-block" onsubmit="return confirm('Etes-vous vraiment sûr ?')">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ application.id) }}">
+                        <button class="btn btn-danger">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+          
+        </tbody>
+    </table>
+   
+</div>
+
+
+
+{% endblock %}

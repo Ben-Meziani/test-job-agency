@@ -1,6 +1,8 @@
 <?php
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class MissionSearch {
     /**
      * @var int|null
@@ -9,6 +11,7 @@ class MissionSearch {
 
     /**
      * @return int|null
+     * @Assert\Range(max=800000)
      */
     public function getMaxSalary(): ?int
     {

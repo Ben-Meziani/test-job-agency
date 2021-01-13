@@ -31,4 +31,10 @@ class MissionSearchType extends AbstractType
             'csrf_protection' => false
         ]);
     }
+
+    //Methode qui permet d'avoir une plus propre
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

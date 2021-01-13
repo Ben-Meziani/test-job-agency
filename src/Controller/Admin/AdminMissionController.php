@@ -66,8 +66,6 @@ public function new(Request $request)
         "mission" => $mission, 
         "form" => $form->createView()
     ]);
-
-
    
 }
 //Edit a mission 

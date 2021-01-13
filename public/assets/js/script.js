@@ -1,6 +1,6 @@
-function bascule(id) 
+function bascule(header) 
 { 
-	if (document.getElementById(id).style.visibility == "hidden")
-			document.getElementById(id).style.visibility = "visible"; 
-	else	document.getElementById(id).style.visibility = "hidden"; 
+	if (document.getElementById(header).style.visibility == "hidden")
+			document.getElementById(header).style.visibility = "visible"; 
+	else	document.getElementById(header).style.visibility = "hidden"; 
 } 

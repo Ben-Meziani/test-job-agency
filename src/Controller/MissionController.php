@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Application;
 use App\Entity\Mission;
+use App\Entity\MissionSearch;
 use App\Form\ApplicationType;
+use App\Form\MissionSearchType;
 use App\Repository\MissionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -12,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class MissionController extends AbstractController
 {
@@ -32,14 +33,17 @@ class MissionController extends AbstractController
       $this->em = $em;
    }
     /**
-     * @Route("/missio", name="mission.index")
+     * @Route("/missions", name="mission.index")
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
      */
     public function index(MissionRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {   
+        $search = new MissionSearch();
+        $form = $this->createForm(MissionSearchType::class, $search);
+        $form->handleRequest($request);
+
         //pagination
-        $data = $repository->findAllVisible();
+        $data = $repository->findAllVisible($search);
 
         $missions = $paginator->paginate(
             $data, //on passe les données
@@ -49,18 +53,17 @@ class MissionController extends AbstractController
 
         return $this->render('mission/index.html.twig', [
             'missions' => $missions,
+            'form'     => $form->createView()
         ]);
     }
     //Vue en détail de la mission 
 
     /**
-     * @Route("/missions/{slug}-{id}", name="mission.show", requirements={"slug": "[a-z0-9\-]*"})
-     * @ParamConverter("mission", class="App\Entity\Mission")
+     * @Route("/mission/{slug}-{id}", name="mission.show", requirements={"slug": "[a-z0-9\-]*"})
      * @return Response
      */
     public function show(Mission $mission, string $slug, Request $request): Response
     { 
-      
         //Je fais un slug 
          if ($mission->getSlug() !== $slug)
          {
@@ -69,20 +72,27 @@ class MissionController extends AbstractController
                  'slug' => $mission->getSlug()
              ], 301);
          }
-        
+        //Formulaire lettre de motivation
+       
         $application = new Application();
-        $application->setMission($mission);
+       
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
+    
 
         if($form->isSubmitted() && $form->isValid()){
+
+            if (in_array('ROLE_RECRUITER',$this->getUser()->getRoles())){
+                $this->addFlash('failed', "Vous êtes recruteur et vous n'êtes pas authorisé(e) à candidater");
+                return $this->redirectToRoute('admin.application.index',['id'=> $this->getUser()->getId()]);
+            }
+
+            $application->setMission($mission);
+            $application->setUser($this->getUser());
             $this->em->persist($application);
             $this->em->flush();
             $this->addFlash('success', 'Votre candidature à bien été soumise');
-            return $this->redirectToRoute('admin.application.index', [
-                'id' => $application->getId(),
-                'slug' => $application->getSlug()
-            ]);
+            return $this->redirectToRoute('user.applicant',['id'=> $this->getUser()->getId()]);
         }
 
         return $this->render('mission/show.html.twig', [

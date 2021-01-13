@@ -35,6 +35,7 @@ class Application
      */
     private $mission;
 
+    
  /**
      * @Gedmo\Slug(fields={"motivationLetter"})
      * @ORM\Column(type="string", length=255)

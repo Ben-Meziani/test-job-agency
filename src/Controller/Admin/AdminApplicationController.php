@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Application;
+use App\Form\ApplicationType;
 use App\Repository\ApplicationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,9 +23,9 @@ private $repository;
  */
 private $em;
 
-public function __construct(ApplicationRepository $repository, EntityManagerInterface $em)
+public function __construct(ApplicationRepository $appRepository, EntityManagerInterface $em)
 {
-    $this->repository = $repository;
+    $this->appRepository = $appRepository;
     $this->em = $em;
 }
 
@@ -34,7 +35,7 @@ public function __construct(ApplicationRepository $repository, EntityManagerInte
  */
 public function index()
 {
-   $applications = $this->repository->findAll();
+   $applications = $this->appRepository->findAll();
    return $this->render('admin/application/index.html.twig', compact('applications'));
 }
 
@@ -46,8 +47,9 @@ public function index()
  * @param Request $request
  * @return \Symfony\Component\HttpFoundation\Response
  */
-public function edit(Application $application, Request $request)
+public function show(Application $application, Request $request)
 {   
+
     $form = $this->createForm(ApplicationType::class, $application);
     $form->handleRequest($request);
 
@@ -58,7 +60,7 @@ public function edit(Application $application, Request $request)
     }
 
 
-    return $this->render('admin/application/edit.html.twig', [
+    return $this->render('admin/application/show.html.twig', [
         
         "application" => $application, 
         "form" => $form->createView()
@@ -74,6 +76,9 @@ public function edit(Application $application, Request $request)
  */
 public function delete(application $application,Request $request)
 {
+
+    
+    $this->denyAccessUnlessGranted('onlyuser', $this->getUser());
     if ($this->isCsrfTokenValid('delete'. $application->getId(), $request->get('_token'))) {
          $this->em->remove($application);
          $this->em->flush();

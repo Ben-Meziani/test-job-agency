@@ -19,6 +19,26 @@ class ApplicationRepository extends ServiceEntityRepository
         parent::__construct($registry, Application::class);
     }
 
+
+    
+    // // Know if a relationship exists
+    // public function getApplication($user, $app)
+    // {
+        
+    //     // je crée un querybuilder sur l'objet User avec l'alias 'user'
+    //     $builder = $this->createQueryBuilder('Application');
+     
+    //     $builder->where("Application.user = :user");
+    //     $builder->andWhere("Application.mission = :mission");
+    //     $builder->setParameter('user', $user);
+    //     $builder->setParameter('app', $app);
+    //     $query = $builder->getQuery();
+      
+    //     $result = $query->getOneOrNullResult();
+    //     return $result;
+    // }
+
+
     // /**
     //  * @return Application[] Returns an array of Application objects
     //  */

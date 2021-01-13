@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Mission;
+use App\Entity\MissionSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,20 +20,28 @@ class MissionRepository extends ServiceEntityRepository
         parent::__construct($registry, Mission::class);
     }
     
-        /**
+    /**
      *
-     * @return Property[]
+     * @return Mission[]
      */
-    public function findAllVisible()
+    public function findAllVisible(MissionSearch $search)
     {
-        return $this->createQueryBuilder('p')
-        ->getQuery()
+        //This is for the salary filter
+        $query =  $this->createQueryBuilder('p');
+        
+        if($search->getMaxSalary()){
+            $query = $query
+                ->where('p.salary <= :maxsalary')
+                ->setParameter('maxsalary', $search->getMaxSalary());
+        }
+
+        return $query->getQuery()
         ->getResult();
     }
 
     /**
      *
-     * @return Property[]
+     * @return Mission[]
      */
     public function findLatest()
     {
