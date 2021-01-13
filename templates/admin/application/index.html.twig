@@ -24,7 +24,7 @@
         <tbody>
             {% for application in applications %}
             <tr>
-                <td>{{ application.motivationLetter }}</td>
+                <td>{{ application.user.lastname }} {{ application.user.name }}</td>
                 <td>
                     <a href="{{ path('admin.application.edit', {id: application.id})}}" class="btn btn-secondary">Voir la candidature</a>
                     <form method="post" action="{{ path('admin.application.delete', {id: application.id}) }}"
