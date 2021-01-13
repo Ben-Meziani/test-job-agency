@@ -25,7 +25,7 @@
         <tbody>
             {% for application in applications %}
             <tr>
-                <td>{{ application.id }}</td>
+                <td>{{ application.mission.title }}</td>
                 <td>{{ application.mission.id }}</td>
                 <td>
                     <a href="{{ path('mission.show', {slug: application.mission.slug, id: application.mission.id})}}" class="btn btn-secondary">Voir l'offre</a>
