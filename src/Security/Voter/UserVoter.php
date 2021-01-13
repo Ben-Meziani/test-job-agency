@@ -11,7 +11,7 @@ class UserVoter extends Voter
 {
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['edit','onlyuser'])
+        return in_array($attribute, ['onlyadmin','onlyuser'])
             && $subject instanceof User;
     }
 
@@ -26,7 +26,7 @@ class UserVoter extends Voter
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case 'edit':
+            case 'onlyadmin':
                 if ($user->getId() == $u->getId()) {
                     return true;
                 }
@@ -34,7 +34,7 @@ class UserVoter extends Voter
                     return true;
                 }
             case 'onlyuser':
-                // Si l'utilisateur connecté est l'auteur de la question, on autorise sa modification
+                // Si l'utilisateur connecté est l'auteur de la candidature, on autorise sa modification
                 if ($user->getId() == $u->getId()) {
                     return true;
                 }
