@@ -6,7 +6,7 @@
 
 <div class="container" mt-4>
 
-    <h1 class="mt-5 mb-5 text-center">Gérer vos candidatures</h1>
+    <h1 class="mt-5 mb-5 text-center">Gérer les candidatures</h1>
 
     {% for message in app.flashes('success') %}
     <div class="alert alert-success">
@@ -17,7 +17,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Titre</th>
+                <th>Nom</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -26,7 +26,7 @@
             <tr>
                 <td>{{ application.motivationLetter }}</td>
                 <td>
-                    <a href="{{ path('admin.application.edit', {id: application.id})}}" class="btn btn-secondary">Voir l'offre</a>
+                    <a href="{{ path('admin.application.edit', {id: application.id})}}" class="btn btn-secondary">Voir la candidature</a>
                     <form method="post" action="{{ path('admin.application.delete', {id: application.id}) }}"
                         style="display: inline-block" onsubmit="return confirm('Etes-vous vraiment sûr ?')">
                         <input type="hidden" name="_method" value="DELETE">

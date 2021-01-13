@@ -16,7 +16,9 @@
                         {{ mission.description | nl2br }} 
                     </p>
                
+                    {% if is_granted('ROLE_RECRUITER') %}
 
+                    {% else %}
                       <div id="bouton" class="btn btn-danger" onclick="bascule('header');">Postulez !</div>
                     <div id="header" style="visibility:hidden">
                     {{ form_start(form) }}
@@ -28,6 +30,9 @@
                             <button class="btn btn-primary">Soumettre</button
                         </div>
                     {{ form_end(form)}}
+                    
+                    
+                    {% endif %}
                     </div>
                     </div>
                     </div>
