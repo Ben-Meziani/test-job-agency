@@ -12,76 +12,74 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"> {% block stylesheets %}{% endblock %}
 	</head>
 		<body>
-			<nav class="navbar navbar-expand-lg navbar-dark bg-danger">
-				<a class="navbar-brand" href="{{ path('home') }}">Mon Agence d'intérim</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
+			<header>
 
-				{% set route_name = app.request.attributes.get('_route') %}
+				<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					<div class="container-fluid">
+						<a class="navbar-brand" href="{{ path('home') }}">Mon Agence d'intérim</a>
+						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						{% set route_name = app.request.attributes.get('_route') %}
+						<div class="collapse navbar-collapse" id="navbarSupportedContent">
+							<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+								<li class="nav-item ">
+									<a {% if route_name == "mission.index" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{{ path('mission.index') }}">Missions</a>
+								</li>
+								{% if app.user %}
+									<li class="nav-item ">
+										<a class="nav-link">Welcome
+											{{ app.user.name }}</a>
+									</li>
+								{% else %}
+									<li class="nav-item ">
+										<a {% if route_name == "app_register" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{{ path('app_register') }}">S'inscrire</a>
+									</li>
+									<li class="nav-item ">
+										<a {% if route_name == "app_login" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{{ path('app_login') }}">Se connecter</a>
+									</li>
+								{% endif %}
+								{% if app.user %}
+									<ul class="navbar-nav mr-5">
+										<li class="nav-item">
+											{% if "ROLE_RECRUITER"  in app.user.roles %}
+												<li class="nav-item dropdown">
+													<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+														Admin
+													</a>
+													<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+														<li>
+															<a class="dropdown-item" href="{{ path('admin.application.index') }}">Consulter les candidatures</a>
+														</li>
+														<li>
+															<a class="dropdown-item" href="{{ path('admin.mission.new') }}">Créer une nouvelle mission</a>
+														</li>
+														<li><hr class="dropdown-divider"></li>
+													</ul>
+												</li>
 
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto">
-						<li class = "nav-item "> 
-              <a {% if route_name == "mission.index" %} class = "nav-link active" {% else %} class = "nav-link" {% endif %} href = "{{ path('mission.index') }}">Missions</a> 
-            </li>
-					</ul>
-					{% if app.user %}
-						<ul class="navbar-nav mr-auto">
-							<li class="nav-item ">
-								<a class="nav-link">Welcome
-								  {{ app.user.name }}</a>
-							</li>
-						</ul>
-					{% else %}
-						<ul class="navbar-nav mr-auto">
-							<li class="nav-item ">
-								<a {% if route_name == "app_register" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{{ path('app_register') }}">S'inscrire</a>
-							</li>
-						</ul>
-						<ul class="navbar-nav mr-auto">
-							<li class="nav-item ">
-								<a {% if route_name == "app_login" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{{ path('app_login') }}">Se connecter</a>
-							</li>
-						</ul>
-					{% endif %}
-					{% if app.user %}
-                <ul class="navbar-nav mr-5">
-                    <li class="nav-item">
-					{% if "ROLE_RECRUITER"  in app.user.roles %}
-						 <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Admin
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{ path('admin.application.index') }}">Consulter les candidatures</a></li>
-            <li><a class="dropdown-item" href="{{ path('admin.mission.new') }}">Créer une nouvelle mission</a></li>
-            <li><hr class="dropdown-divider"></li>
-          </ul>
-        </li>
- 
-						{% else %}
-						<a href="{{path('user.applicant', {id: app.user.id}) }}" class="nav-link">Mon compte</a>
-						{% endif %}
-                    </li>
-                </ul>
-                {% endif %}
-					{% if app.user %}
-                <ul class="navbar-nav mr-5">
-                    <li class="nav-item">
-                        <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
-                    </li>
-                </ul>
-				{% endif %}
-				{% if is_granted('ROLE_ADMIN') %}
-				  <ul class="navbar-nav mr-5">
-                    <li class="nav-item">
-                        <a href="{{ path('admin.mission.index') }}" class="nav-link">Admin</a>
-                    </li>
-                </ul>
-				{% endif %}
-				</div>
-			</nav>
+											{% else %}
+												<a href="{{path('user.applicant', {id: app.user.id}) }}" class="nav-link">Mon compte</a>
+											{% endif %}
+										</li>
+									</ul>
+								{% endif %}
+								{% if app.user %}
+								<li class="nav-item">
+									<a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
+								</li>
+								{% endif %}
+								{% if is_granted('ROLE_ADMIN') %}
+									<li class="nav-item">
+										<a href="{{ path('admin.mission.index') }}" class="nav-link">Admin</a>
+									</li>
+								{% endif %}
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</header>
+
 			{% block body %}{% endblock %}
 
 			{% block javascripts %}{% endblock %}

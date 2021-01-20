@@ -107,6 +107,16 @@ class User implements UserInterface, Serializable
      */
     private $applications;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $reset_token;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $activation_token;
+
 
     public function getCvFile()
     {
@@ -376,6 +386,31 @@ class User implements UserInterface, Serializable
                 $application->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->reset_token;
+    }
+
+    public function setResetToken(?string $reset_token): self
+    {
+        $this->reset_token = $reset_token;
+
+        return $this;
+    }
+
+    public function getActivationToken(): ?string
+    {
+        return $this->activation_token;
+    }
+
+    public function setActivationToken(?string $activation_token): self
+    {
+        $this->activation_token = $activation_token;
+
 
         return $this;
     }

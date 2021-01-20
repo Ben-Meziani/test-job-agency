@@ -27,7 +27,7 @@ class Mission
      */
     private $title;
 
-        /**
+    /**
      * @ORM\Column(type="integer")
      */
     private $salary;
@@ -70,7 +70,7 @@ class Mission
      */
     private $applications;
 
-   /**
+    /**
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(type="string", length=255)
      */
@@ -94,10 +94,10 @@ class Mission
     }
     public function getSlug(): string
     {
-        return $this->slug; 
+        return $this->slug;
     }
 
- 
+
 
     public function setTitle(string $title): self
     {
