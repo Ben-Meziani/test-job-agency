@@ -27,11 +27,12 @@ class MissionRepository extends ServiceEntityRepository
     public function findAllVisible(MissionSearch $search)
     {
         //This is for the salary filter
-        $query =  $this->createQueryBuilder('p');
-        
+        $query =  $this->createQueryBuilder('mission');
+        $query->orderBy('mission.created_at', 'DESC');
+
         if($search->getMaxSalary()){
             $query = $query
-                ->where('p.salary <= :maxsalary')
+                ->where('mission.salary <= :maxsalary')
                 ->setParameter('maxsalary', $search->getMaxSalary());
         }
 
@@ -45,7 +46,8 @@ class MissionRepository extends ServiceEntityRepository
      */
     public function findLatest()
     {
-        return $this->createQueryBuilder('p')
+        return $this->createQueryBuilder('mission')
+        ->orderBy('mission.created_at', 'DESC')
         ->setMaxResults(10)
         ->getQuery()
         ->getResult();

@@ -72,7 +72,6 @@ class SecurityController extends AbstractController
                 // On retourne sur la page de connexion
                 return $this->redirectToRoute('app_login');
             }
-
             // On génère un token
             $token = $tokenGenerator->generateToken();
 

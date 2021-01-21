@@ -20,43 +20,55 @@
 
 					{% else %}
 
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-							Launch demo modal
-						</button>
 
-						<!-- Modal -->
-						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
+						<div class="container">
+							<button type="button" class="btn btn-info btn-round" data-toggle="modal" data-target="#loginModal">
+								Postulez !
+							</button>
+						</div>
+
+						<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+									<div class="modal-header border-bottom-0">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
 									</div>
 									<div class="modal-body">
-										...
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary">Save changes</button>
+										<div class="form-title text-center">
+											<h4>Login</h4>
+										</div>
+										<div class="d-flex flex-column text-center">
+											
+												{{ form_start(form) }}
+												<div class="row">
+													<div class="col">{{ form_row(form.motivationLetter) }}</div>
+												</div>
+												{{ form_rest(form) }}
+												<div class="form-group">
+													<button class="btn btn-primary">Soumettre</button</div>
+													{{ form_end(form)}}
+												
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 
-					{# <div id="bouton" class="btn btn-danger" onclick="bascule('header');">Postulez !</div>
-																<div id="header" style="visibility:hidden">
-																	{{ form_start(form) }}
-																	<div class="row">
-																		<div class="col">{{ form_row(form.motivationLetter) }}</div>
-																	</div>
-																	{{ form_rest(form) }}
-																	<div class="form-group">
-																		<button class="btn btn-primary">Soumettre</button</div>
-																		{{ form_end(form)}} #}
-				{% endif %}
+
+							{# <div id="bouton" class="btn btn-danger" onclick="bascule('header');">Postulez !</div>
+																														<div id="header" style="visibility:hidden">
+																															{{ form_start(form) }}
+																															<div class="row">
+																																<div class="col">{{ form_row(form.motivationLetter) }}</div>
+																															</div>
+																															{{ form_rest(form) }}
+																															<div class="form-group">
+																																<button class="btn btn-primary">Soumettre</button</div>
+																																{{ form_end(form)}} #}
+						{% endif %}
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-</div></div></div>{% endblock %}
+		{% endblock %}

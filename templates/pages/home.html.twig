@@ -4,6 +4,16 @@
 
 {% block body %}
 <div class="container">
+  {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
+      {% for message in app.flashes('message') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
 <h1 class="mt-5 mb-5 text-center">Agence d'interim</h1>
  {% for message in app.flashes('success') %}
     <div class="alert alert-success">

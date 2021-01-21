@@ -55,17 +55,8 @@ class RegistrationController extends AbstractController
                  ['token' => $user->getActivationToken()]
                 
             );
-                // $email = (new Email())
-                //     ->from('votre@adresse.fr')
-                //     ->to("toufik-m@live.fr")//$user->getEmail())
-                //     ->subject('Votre compte')
-                //     ->html($this->renderView(
-                //         'emails/activation.html.twig', ['token' => $user->getActivationToken()]
-                //     ),
-                //     'text/html');
-                // $mailer->send($email);
+            $this->addFlash('success', 'Votre compte à bien été créé ! Veuillez regarder votre email pour confirmer votre compte');
                 
-
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,

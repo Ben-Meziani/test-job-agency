@@ -11,7 +11,7 @@ class MissionSearch {
 
     /**
      * @return int|null
-     * @Assert\Range(max=800000)
+     * @Assert\Range(max=800000, min=1)
      */
     public function getMaxSalary(): ?int
     {
