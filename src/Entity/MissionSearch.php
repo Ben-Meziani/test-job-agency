@@ -9,6 +9,11 @@ class MissionSearch {
      */
     private $maxSalary;
 
+      /**
+     * @var int|null
+     */
+    private $minSalary;
+
     /**
      * @return int|null
      * @Assert\Range(max=800000, min=1)
@@ -25,6 +30,25 @@ class MissionSearch {
     public function setMaxSalary(int $maxSalary): MissionSearch
     {
         $this->maxSalary = $maxSalary;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     * @Assert\Range(max=800000, min=1)
+     */
+    public function getMinSalary(): ?int
+    {
+        return $this->minSalary;
+    }
+
+    /**
+     * @param int|null $minSalary
+     * @return MissionSearch
+     */
+    public function setMinSalary(int $minSalary): MissionSearch
+    {
+        $this->minSalary = $minSalary;
         return $this;
     }
 }

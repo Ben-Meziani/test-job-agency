@@ -32,8 +32,14 @@ class MissionRepository extends ServiceEntityRepository
 
         if($search->getMaxSalary()){
             $query = $query
-                ->where('mission.salary <= :maxsalary')
+                ->andWhere('mission.salary <= :maxsalary')
                 ->setParameter('maxsalary', $search->getMaxSalary());
+        }
+
+        if($search->getMinSalary()){
+            $query = $query
+                ->andWhere('mission.salary >= :minsalary')
+                ->setParameter('minsalary', $search->getMinSalary());
         }
 
         return $query->getQuery()

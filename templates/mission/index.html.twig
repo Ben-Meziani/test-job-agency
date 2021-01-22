@@ -4,41 +4,40 @@
 {% endblock %}
 
 {% block body %}
-    {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-		{% endfor %}
-		<div class="jumbotron">
-    <div class="container mt-5">
-	  {{ form_start(form) }}
-	  
-      <div class="form-row d-flex align-items-end">
-        
-        <div class="col">
-          {{ form_row(form.maxSalary) }}
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <button class="btn btn-primary">Rechercher</button>
-          </div>
-        </div>
-      </div>
-      {{ form_end(form) }}
-    </div>
-  </div>
-<div class="container mt-4">
-	<h1>Voir toutes les missions</h1>
-	<div class="row">
-		{% for mission in missions %}
-	 <div class="col-md-4">
-		{% include "mission/_mission.html.twig" %}
-	 </div>
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
 	{% endfor %}
-	<div class="pagination">
-		{{ knp_pagination_render(missions) }}
-	  </div>
-	</div>
-</div>
+	<div class="jumbotron">
+		<div class="container mt-5">
+			{{ form_start(form) }}
 
-</div>{% endblock %}
+			<div class="form-row d-flex align-items-end">
+
+				<div class="col">
+					{{ form_row(form.maxSalary) }}
+				</div>
+				<div class="col">
+					{{ form_row(form.minSalary) }}
+				</div>
+				<button class="btn btn-primary">Rechercher</button>
+			</div>
+		</div>
+		{{ form_end(form) }}
+		<div class="container mt-4">
+			<h1>Voir toutes les missions</h1>
+			<div class="row">
+				{% for mission in missions %}
+					<div class="col-md-4">
+						{% include "mission/_mission.html.twig" %}
+					</div>
+				{% endfor %}
+				<div class="pagination">
+					{{ knp_pagination_render(missions) }}
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}
