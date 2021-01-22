@@ -16,7 +16,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
- * @Vich\Uploadable
  */
 class User implements UserInterface, Serializable
 {
@@ -59,11 +58,6 @@ class User implements UserInterface, Serializable
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $actualJob;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $address;
 
     /**
@@ -78,28 +72,9 @@ class User implements UserInterface, Serializable
 
     /**
      * @ORM\Column(type="string", length=255)
-     *  * @Assert\File(
-     *     maxSize = "1624k",
-     *     mimeTypes = {"application/pdf", "application/x-pdf"},
-     *     mimeTypesMessage = "Veuillez télécharger que du format PDF")
-     */
-    private $cv;
-
-    /**
-     * @Vich\UploadableField(mapping="cvs", fileNameProperty="cv")
-     */
-    private $cvFile;
-
-    /**
-     * @ORM\Column(type="string", length=255)
      *  @Assert\Regex("#^0[1-9]([-. ]?[0-9]{2}){4}$#")
      */
     private $phone;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $cvName;
 
 
     /**
@@ -118,37 +93,7 @@ class User implements UserInterface, Serializable
     private $activation_token;
 
 
-    public function getCvFile()
-    {
-        return $this->cvFile;
-    }
-
-    /**
-     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-     * of 'UploadedFile' is injected into this setter to trigger the update. If this
-     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-     * must be able to accept an instance of 'File' as the bundle will inject one here
-     * during Doctrine hydration.
-     *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $cvFile
-     */
-    public function setCvFile(?File $cvFile = null): void
-    {
-        $this->cvFile = $cvFile;
-        if ($cvFile) {
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-    }
-
-    public function setCvName(?string $cvName): void
-    {
-        $this->cvName = $cvName;
-    }
-
-    public function getCvName(): ?string
-    {
-        return $this->cvName;
-    }
+    
 
     public function __construct()
     {
@@ -268,18 +213,6 @@ class User implements UserInterface, Serializable
         return $this;
     }
 
-    public function getActualJob(): ?string
-    {
-        return $this->actualJob;
-    }
-
-    public function setActualJob(string $actualJob): self
-    {
-        $this->actualJob = $actualJob;
-
-        return $this;
-    }
-
     public function getAddress(): ?string
     {
         return $this->address;
@@ -316,17 +249,7 @@ class User implements UserInterface, Serializable
         return $this;
     }
 
-    public function getCv(): ?string
-    {
-        return $this->cv;
-    }
-
-    public function setCv(?string $cv): self
-    {
-        $this->cv = $cv;
-
-        return $this;
-    }
+   
 
     public function getPhone(): ?string
     {
@@ -343,7 +266,6 @@ class User implements UserInterface, Serializable
 
     public function serialize()
     {
-        $this->cvFile = base64_encode($this->cvFile);
         return serialize(array(
             $this->id,
             $this->email,
@@ -356,7 +278,6 @@ class User implements UserInterface, Serializable
 
     public function unserialize($serialized)
     {
-        $this->cvFile = base64_decode($this->cvFile);
  
         list (
             $this->id,

@@ -82,7 +82,7 @@ public function delete(application $application,Request $request)
     if ($this->isCsrfTokenValid('delete'. $application->getId(), $request->get('_token'))) {
          $this->em->remove($application);
          $this->em->flush();
-         $this->addFlash('success', 'Bien supprimé avec succès');
+         $this->addFlash('success', 'Candidature supprimé avec succès');
     }
    return $this->redirectToRoute('admin.application.index');
 }

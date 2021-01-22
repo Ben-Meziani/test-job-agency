@@ -24,10 +24,9 @@ class RegistrationFormType extends AbstractType
             ->add('name')
             ->add('lastname')
             ->add('address')
-            ->add('actualJob')
             ->add('postalCode')
             ->add('country')
-            ->add('cvFile', VichImageType::class)
+            
             ->add('phone')
              ->add('agreeTerms', CheckboxType::class, [
                  'mapped' => false,

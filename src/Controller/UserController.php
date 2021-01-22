@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Application;
 use App\Entity\User;
 use App\Repository\ApplicationRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +27,10 @@ class UserController extends AbstractController
 
         $this->denyAccessUnlessGranted('onlyuser', $user);
         
-        $applications = $this->appRepository->findBy(['user' => $user ]);
+        $applications = $this->appRepository->findBy([
+            'user' => $user,
+             ]);
+
         return $this->render('user/index-applicant.html.twig', [
             'user' => $user,
             'applications' => $applications 
@@ -36,9 +38,9 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/application/{id}", name="user.delete.application", requirements={"id" = "\d+"})
+     * @Route("/user/application/{id}", name="user.delete.application", requirements={"id" = "\d+"}, methods="DELETE")
      */
-    public function deleteAppplication(Application $application, Request $request): Response
+    public function deleteApplication(Application $application, Request $request): Response
     {
 
         $user = $application->getUser();
@@ -51,7 +53,7 @@ class UserController extends AbstractController
              $this->addFlash('success', 'Bien supprimé avec succès');
         }
        
-            return $this->redirectToRoute('user',['id'=>$user->getId()]);
+            return $this->redirectToRoute('user.applicant',['id'=>$user->getId()]);
         }
     }
 
