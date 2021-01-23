@@ -13,7 +13,7 @@
 .slider .card{
   flex: 1;
   margin: 0 10px;
-  background: #EBCFC9;
+  background:rgb(214, 207, 207);
 }
 .slider .card .img{
   height: 200px;
@@ -78,6 +78,17 @@ a:active{
 
 .blue{
   color:blue;
+}
+
+.btn {
+  background-color: #ddd;
+  border: none;
+  color: black;
+  padding: 16px 32px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition: 0.3s;
 }
 
 

@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
+use App\Data\MissionData;
 use App\Entity\Application;
 use App\Entity\Mission;
-use App\Entity\MissionSearch;
 use App\Form\ApplicationType;
 use App\Form\MissionSearchType;
 use App\Repository\MissionRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,24 +35,20 @@ class MissionController extends AbstractController
      * @Route("/missions", name="mission.index")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(MissionRepository $repository, Request $request, PaginatorInterface $paginator): Response
+    public function index(MissionRepository $repository, Request $request): Response
     {   
-        $search = new MissionSearch();
-        $form = $this->createForm(MissionSearchType::class, $search);
+
+        $data = new MissionData;
+        $data->page = $request->get('page', 1);
+        $form = $this->createForm(MissionSearchType::class, $data);
         $form->handleRequest($request);
+        $missions = $repository->findSearch($data);
 
-        //pagination
-        $data = $repository->findAllVisible($search);
 
-        $missions = $paginator->paginate(
-            $data, //on passe les données
-            $request->query->getInt('page', 1),
-            6
-        );
 
         return $this->render('mission/index.html.twig', [
             'missions' => $missions,
-            'form'     => $form->createView()
+            'form' => $form->createView()
         ]);
     }
     //Vue en détail de la mission 

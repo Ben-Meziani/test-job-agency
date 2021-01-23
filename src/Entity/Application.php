@@ -74,6 +74,11 @@ class Application
     private $cvName;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $is_accepted;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $created_at;
@@ -218,6 +223,18 @@ class Application
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getIsAccepted(): ?bool
+    {
+        return $this->is_accepted;
+    }
+
+    public function setIsAccepted(bool $is_accepted): self
+    {
+        $this->is_accepted = $is_accepted;
 
         return $this;
     }

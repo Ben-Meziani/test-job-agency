@@ -25,50 +25,52 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
+                'label' => ' ',
                 'attr' => array(
                     'placeholder' => 'email@youremail.com'
                 )
             ])
             ->add('name', TextType::class, [
-                'label' => 'Prénom','attr' => array(
+                'label' => ' ',
+                'attr' => array(
                     'placeholder' => 'Votre prénom ici'
                 )
 
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Nom',
+                'label' => ' ',
                 'attr' => array(
                     'placeholder' => 'Votre nom de famille ici'
                 )
 
             ])
             ->add('address', TextType::class, [
-                'label' => 'Adresse',
+                'label' => ' ',
                 'attr' => array(
                     'placeholder' => 'Votre adresse ici'
                 ) 
             ])
             ->add('postalCode', NumberType::class, [
-                'label' => 'Code postal',
+                'label' => ' ',
                 'attr' => array(
                     'placeholder' => 'Votre code postal ici'
                 ) 
             ])
             ->add('country', TextType::class, [
-                'label' => 'Pays',
+                'label' => ' ',
                 'attr' => array(
                     'placeholder' => 'Votre pays ici'
                 ) 
             ])
             
             ->add('phone', NumberType::class, [
-                'label' => 'Téléphone',
+                'label' => ' ',
                 'attr' => array(
                     'placeholder' => 'Votre adresse ici'
                 ) 
             ])
              ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'J\'accepte les conditions générales',
+                'label' => ' ',
                  'mapped' => false,
                  'constraints' => [
                      new IsTrue([
@@ -78,7 +80,6 @@ class RegistrationFormType extends AbstractType
              ])
             
             ->add('password', RepeatedType::class, [
-                'label' =>'Confirmation de mot de passe',
                 'attr' => array(
                 'placeholder' => 'Votre confirmation de mot de passe ici'
             ),
@@ -86,11 +87,11 @@ class RegistrationFormType extends AbstractType
                 'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Mot de passe',
+                'first_options'  => ['label' => ' ',
                 'attr' => array(
                 'placeholder' => 'Votre mot de passe ici'
             )],
-                'second_options' => ['label' => 'Confirmation de mot de passe',
+                'second_options' => ['label' => ' ',
                 'attr' => array(
                 'placeholder' => 'Votre confirmation de mot de passe ici'
             )],

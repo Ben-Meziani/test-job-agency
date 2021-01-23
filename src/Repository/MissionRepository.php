@@ -2,10 +2,15 @@
 
 namespace App\Repository;
 
+use App\Data\MissionData;
 use App\Entity\Mission;
-use App\Entity\MissionSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\Pagination\PaginatorInterface;
+use Knp\Component\Pager\PaginatorInterface as PagerPaginatorInterface;
 
 /**
  * @method Mission|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,35 +20,50 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MissionRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+     /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+    public function __construct(ManagerRegistry $registry, PagerPaginatorInterface $paginator)
     {
         parent::__construct($registry, Mission::class);
+        $this->paginator = $paginator;
     }
-    
+
     /**
-     *
-     * @return Mission[]
+     * Récupère les produits en lien avec une recherche
+     * @return Paginationinterface[]
      */
-    public function findAllVisible(MissionSearch $search)
+    public function findSearch(MissionData $search): PaginationInterface
     {
-        //This is for the salary filter
-        $query =  $this->createQueryBuilder('mission');
-        $query->orderBy('mission.created_at', 'DESC');
+        $query = $this
+            ->createQueryBuilder('mission')
+            ->orderBy('mission.created_at', 'DESC');
 
-        if($search->getMaxSalary()){
-            $query = $query
-                ->andWhere('mission.salary <= :maxsalary')
-                ->setParameter('maxsalary', $search->getMaxSalary());
-        }
+            if(!empty($search->q)) {
+                $query = $query 
+                        ->andWhere('mission.title LIKE :q')
+                        ->setParameter('q', "%{$search->q}%");
+            }
 
-        if($search->getMinSalary()){
-            $query = $query
-                ->andWhere('mission.salary >= :minsalary')
-                ->setParameter('minsalary', $search->getMinSalary());
-        }
+            if(!empty($search->salaryMin)){
+                $query = $query 
+                ->andWhere('mission.salary >= :salaryMin')
+                ->setParameter('salaryMin', $search->salaryMin);
+            }
 
-        return $query->getQuery()
-        ->getResult();
+            if(!empty($search->salaryMax)){
+                $query = $query 
+                ->andWhere('mission.salary <= :salaryMax')
+                ->setParameter('salaryMax', $search->salaryMax);
+            }
+            
+        $query =  $query->getQuery();
+        return $this->paginator->paginate(
+            $query,
+            $search->page,
+            6
+        );
     }
 
     /**

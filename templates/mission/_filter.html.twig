@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+    {{ form_row(form.q) }}
+
+    <h4>Salaire</h4>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.salaryMin) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.salaryMax) }}
+            </div>
+        </div>
+        <div id="salary-slider"></div>
+        <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+        
+{{ form_end(form) }}
