@@ -35,7 +35,7 @@ class AdminApplicationController extends AbstractController
      */
     public function index()
     {
-        $applications = $this->appRepository->findAll();
+        $applications = $this->appRepository->findLatest();
         return $this->render('admin/application/index.html.twig', compact('applications'));
     }
 
@@ -50,7 +50,7 @@ class AdminApplicationController extends AbstractController
     public function show(Application $application, Request $request)
     {
 
-        $is_accepted = new Application;
+        $is_accepted = $application->getIsAccepted();
         $form = $this->createForm(StatusApplicationType::class, $application);
         $form->handleRequest($request);
         

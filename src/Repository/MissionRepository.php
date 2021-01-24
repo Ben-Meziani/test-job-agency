@@ -44,6 +44,12 @@ class MissionRepository extends ServiceEntityRepository
                 $query = $query 
                         ->andWhere('mission.title LIKE :q')
                         ->setParameter('q', "%{$search->q}%");
+            } 
+            
+            if(!empty($search->p)) {
+                $query = $query 
+                        ->andWhere('mission.city LIKE :p')
+                        ->setParameter('p', "%{$search->p}%");
             }
 
             if(!empty($search->salaryMin)){
@@ -51,6 +57,7 @@ class MissionRepository extends ServiceEntityRepository
                 ->andWhere('mission.salary >= :salaryMin')
                 ->setParameter('salaryMin', $search->salaryMin);
             }
+            
 
             if(!empty($search->salaryMax)){
                 $query = $query 

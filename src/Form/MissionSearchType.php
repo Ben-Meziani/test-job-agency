@@ -19,9 +19,16 @@ class MissionSearchType extends AbstractType
             'label' => false,
             'required' =>false,
             'attr' => [
-                'placeholder' => 'Rechercher'
+                'placeholder' => 'Métier'
             ]
             ])
+            ->add('p', TextType::class, [
+                'label' => false,
+                'required' =>false,
+                'attr' => [
+                    'placeholder' => 'Ville'
+                ]
+                ])
             ->add('salaryMax', NumberType::class, [
               'required' =>false, 
               'label' => false,
