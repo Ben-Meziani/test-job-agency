@@ -42,13 +42,14 @@ class MissionController extends AbstractController
         $data->page = $request->get('page', 1);
         $form = $this->createForm(MissionSearchType::class, $data);
         $form->handleRequest($request);
+        [$min, $max] = $repository->findMinMax($data);
         $missions = $repository->findSearch($data);
-
-
 
         return $this->render('mission/index.html.twig', [
             'missions' => $missions,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'min' => $min,
+            'max' => $max
         ]);
     }
     //Vue en détail de la mission 

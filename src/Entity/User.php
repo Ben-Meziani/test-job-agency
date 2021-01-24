@@ -38,6 +38,12 @@ class User implements UserInterface, Serializable
      */
     private $roles = [];
 
+     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
+
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
@@ -72,7 +78,6 @@ class User implements UserInterface, Serializable
 
     /**
      * @ORM\Column(type="string", length=255)
-     *  @Assert\Regex("#^0[1-9]([-. ]?[0-9]{2}){4}$#")
      */
     private $phone;
 
@@ -146,6 +151,16 @@ class User implements UserInterface, Serializable
         $this->roles = $roles;
 
         return $this;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
     }
 
     /**

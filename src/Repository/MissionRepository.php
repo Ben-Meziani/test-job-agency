@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Data\MissionData;
 use App\Entity\Mission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -36,6 +37,33 @@ class MissionRepository extends ServiceEntityRepository
      */
     public function findSearch(MissionData $search): PaginationInterface
     {
+        
+            
+        $query =  $this->getSearchQuery($search)->getQuery();
+        return $this->paginator->paginate(
+            $query,
+            $search->page,
+            6
+        );
+    }
+
+    /**
+     * Récupère le prix min et max de la recherche
+     * @param MissionData $search
+     * @return integer[]
+     */
+    public function findMinMax(MissionData $search): array
+    {
+        $results = $this->getSearchQuery($search, true)
+            ->select('MIN(mission.salary) as min', 'MAX(mission.salary) as max')
+            ->getQuery()
+            ->getScalarResult();
+            return [(int)$results[0]['min'], (int)$results[0]['max']];
+    }
+
+
+    private function getSearchQuery(MissionData $search, $ignoreSalary = false): QueryBuilder
+    {
         $query = $this
             ->createQueryBuilder('mission')
             ->orderBy('mission.created_at', 'DESC');
@@ -52,25 +80,19 @@ class MissionRepository extends ServiceEntityRepository
                         ->setParameter('p', "%{$search->p}%");
             }
 
-            if(!empty($search->salaryMin)){
+            if(!empty($search->min) && $ignoreSalary = false){
                 $query = $query 
-                ->andWhere('mission.salary >= :salaryMin')
-                ->setParameter('salaryMin', $search->salaryMin);
+                ->andWhere('mission.salary >= :min')
+                ->setParameter('min', $search->min);
             }
             
 
-            if(!empty($search->salaryMax)){
+            if(!empty($search->max)){
                 $query = $query 
-                ->andWhere('mission.salary <= :salaryMax')
-                ->setParameter('salaryMax', $search->salaryMax);
+                ->andWhere('mission.salary <= :max')
+                ->setParameter('max', $search->max);
             }
-            
-        $query =  $query->getQuery();
-        return $this->paginator->paginate(
-            $query,
-            $search->page,
-            6
-        );
+            return $query;
     }
 
     /**

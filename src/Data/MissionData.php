@@ -24,15 +24,15 @@ class MissionData {
 
     /**
      * @var null|integer
-     * @Assert\Range(max=800000)
+     * @Assert\Range(max=65000)
      */
-    public $salaryMax;
+    public $max;
 
      /**
      * @var null|integer
      * @Assert\Range(min=0)
      */
-    public $salaryMin;
+    public $min;
 
 
 

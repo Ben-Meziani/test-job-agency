@@ -29,14 +29,14 @@ class MissionSearchType extends AbstractType
                     'placeholder' => 'Ville'
                 ]
                 ])
-            ->add('salaryMax', NumberType::class, [
+            ->add('max', NumberType::class, [
               'required' =>false, 
               'label' => false,
               'attr' => [
                   'placeholder' => 'Salaire max'
               ] 
             ])
-            ->add('salaryMin', NumberType::class, [
+            ->add('min', NumberType::class, [
                 'required' =>false, 
                 'label' => false,
                 'attr' => [
