@@ -61,6 +61,10 @@
   transform: scale(0.9);
 }
 
+.card-body{
+  height: 175px;
+}
+
 a:active{
   color:blue;
 }

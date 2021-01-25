@@ -21,8 +21,6 @@
 	</head>
 	<body>
 		<header>
-
-
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
 				<a class="navbar-brand" href="{{ path('home') }}">Mon Agence d'intérim</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,47 +51,49 @@
 								<li class="nav-item">
 									{% if "ROLE_RECRUITER"  in app.user.roles %}
 										<li class="nav-item dropdown">
-											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 												Admin
 											</a>
-											<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-												<a class="dropdown-item" href="{{ path('admin.application.index') }}">Consulter les candidatures</a>
-												<a class="dropdown-item" href="{{ path('admin.mission.new') }}">Créer une nouvelle mission</a>
-											</div>
+											<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+												<li>
+													<a class="dropdown-item" href="{{ path('admin.application.index') }}">Consulter les candidatures</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="{{ path('admin.mission.new') }}">Créer une nouvelle mission</a>
+												</li>
+												<li><hr class="dropdown-divider"></li>
+											</ul>
 										</li>
-									</li>
 
-								{% else %}
-									<a href="{{path('user.applicant', {id: app.user.id}) }}" class="nav-link">Mon compte</a>
-								{% endif %}
+									{% else %}
+										<a href="{{path('user.applicant', {id: app.user.id}) }}" class="nav-link">Mon compte</a>
+									{% endif %}
+								</li>
+							</ul>
+						{% endif %}
+						{% if app.user %}
+							<li class="nav-item">
+								<a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
 							</li>
+						{% endif %}
+						{% if is_granted('ROLE_ADMIN') %}
+							<li class="nav-item">
+								<a href="{{ path('admin.mission.index') }}" class="nav-link">Admin</a>
+							</li>
+						{% endif %}
 						</ul>
-					{% endif %}
-					{% if app.user %}
-						<li class="nav-item">
-							<a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
-						</li>
-					{% endif %}
-					{% if is_granted('ROLE_ADMIN') %}
-						<li class="nav-item">
-							<a href="{{ path('admin.mission.index') }}" class="nav-link">Admin</a>
-						</li>
-					{% endif %}
-				</ul>
-			</div>
-		</div>
-	</body>
-</html></nav></body></header>{# <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-											<div class="modal-dialog modal-dialog-centered" role="document">
-												<div class="modal-content">
-													<div class="modal-header border-bottom-0">
-														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-															<span aria-hidden="true">&times;</span>
-														</button>
-													</div>
-													<div class="modal-body">
-														{% include '/security/login.html.twig' %}
-													</div>
-												</div>
-											</div>	
-										</body> #}</div>{% block body %}{% endblock %}{% block javascripts %}<footer class="bg-light text-center text-lg-start mt-5 fixed-bottom"><!-- Copyright --><div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">© 2020 Copyright:<a class="text-dark" href="https://mdbootstrap.com/">mon-agence-dinterim.com</a></div><!-- Copyright --></footer>{% endblock %}<script src="../assets/js/jquery.js"></script><script src="../assets/js/script.js"></script><script src="js/multislider.js"></script><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script></body></html>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+	{% block body %}{% endblock %}{% block javascripts %}
+	<footer class="bg-lighttext-centertext-lg-startmt-5fixed-bottom">
+	<!-- Copyright --><div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">© 2020 Copyright:<a class="text-dark" href="https://mdbootstrap.com/">mon-agence-dinterim.com</a>
+	</div><!-- Copyright --></footer>{% endblock %}<script src="../assets/js/jquery.js"></script><script src="../assets/js/script.js"></script>
+	<script src="js/multislider.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ </body>
+</html>
