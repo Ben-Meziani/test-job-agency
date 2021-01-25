@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\MissionSearch;
+use App\Data\MissionData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,21 +15,42 @@ class MissionSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('maxSalary', IntegerType::class, [
+            ->add('job', TextType::class, [
+            'label' => false,
+            'required' =>false,
+            'attr' => [
+                'placeholder' => 'Métier'
+            ]
+            ])
+            ->add('city', TextType::class, [
+                'label' => false,
+                'required' =>false,
+                'attr' => [
+                    'placeholder' => 'Ville'
+                ]
+                ])
+            ->add('max', NumberType::class, [
               'required' =>false, 
               'label' => false,
               'attr' => [
                   'placeholder' => 'Salaire max'
               ] 
             ])
+            ->add('min', NumberType::class, [
+                'required' =>false, 
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Salaire minimum'
+                ] 
+              ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => MissionSearch::class,
-            'method' => 'get',
+            'data_class' => MissionData::class,
+            'method' => 'GET',
             'csrf_protection' => false
         ]);
     }

@@ -20,6 +20,7 @@
             <th>Motivations</th>
             <th>cv</th>
             <th>Poste</th>
+            <th>Statut</th>
           </tr>
         </thead>
         <tbody>
@@ -28,8 +29,14 @@
             <td>{{application.user.name}}</td>
             <td>{{application.user.email}}</td>
             <td>{{application.motivationLetter}}</td>
-            <td><a href="{{ asset('/files/cvs/' ~ application.user.cv) }}" download >Télécharger </a></td>
+            <td><a href="{{ asset('/files/cvs/' ~ application.cv) }}" download >Télécharger </a></td>
             <td>{{application.mission.title}}</td>
+            <td>
+              <form action="">
+                {{ form_start(form) }}{{ form_row(form.is_accepted) }}{{ form_end(form) }}
+                <button class="btn btn-danger">Soumettre</button>
+              </form>
+            </td>
           </tr>
         </tbody>
       </table>

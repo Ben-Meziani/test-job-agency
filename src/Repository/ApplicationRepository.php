@@ -19,6 +19,14 @@ class ApplicationRepository extends ServiceEntityRepository
         parent::__construct($registry, Application::class);
     }
 
+    public function findLatest()
+    {
+        return $this->createQueryBuilder('application')
+        ->orderBy('application.created_at', 'DESC')
+        ->getQuery()
+        ->getResult();
+    } 
+
 
     
     // // Know if a relationship exists

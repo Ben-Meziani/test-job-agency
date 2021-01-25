@@ -34,6 +34,13 @@
                     <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ application.id) }}">
                         <button class="btn btn-danger">Supprimer</button>
+                        {# {% if application == false %}
+                            <p>Candidature refusée</p>
+                        {% elseif application == null %}
+                            <p>Candidature en attente</p>
+                        {% else application == true %}
+                            <p>Candidature acceptée</p>
+                        {% endif %}     #}
                     </form>
                 </td>
            </tr>

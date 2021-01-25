@@ -2,10 +2,16 @@
 
 namespace App\Repository;
 
+use App\Data\MissionData;
 use App\Entity\Mission;
-use App\Entity\MissionSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\Pagination\PaginatorInterface;
+use Knp\Component\Pager\PaginatorInterface as PagerPaginatorInterface;
 
 /**
  * @method Mission|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,28 +21,79 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MissionRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+     /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+    public function __construct(ManagerRegistry $registry, PagerPaginatorInterface $paginator)
     {
         parent::__construct($registry, Mission::class);
+        $this->paginator = $paginator;
     }
-    
-    /**
-     *
-     * @return Mission[]
-     */
-    public function findAllVisible(MissionSearch $search)
-    {
-        //This is for the salary filter
-        $query =  $this->createQueryBuilder('p');
-        
-        if($search->getMaxSalary()){
-            $query = $query
-                ->where('p.salary <= :maxsalary')
-                ->setParameter('maxsalary', $search->getMaxSalary());
-        }
 
-        return $query->getQuery()
-        ->getResult();
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Paginationinterface[]
+     */
+    public function findSearch(MissionData $search): PaginationInterface
+    {
+        
+            
+        $query =  $this->getSearchQuery($search)->getQuery();
+        return $this->paginator->paginate(
+            $query,
+            $search->page,
+            6
+        );
+    }
+
+    /**
+     * Récupère le prix min et max de la recherche
+     * @param MissionData $search
+     * @return integer[]
+     */
+    public function findMinMax(MissionData $search): array
+    {
+        $results = $this->getSearchQuery($search, true)
+            ->select('MIN(mission.salary) as min', 'MAX(mission.salary) as max')
+            ->getQuery()
+            ->getScalarResult();
+            return [(int)$results[0]['min'], (int)$results[0]['max']];
+    }
+
+
+    private function getSearchQuery(MissionData $search, $ignoreSalary = false): QueryBuilder
+    {
+       // dd($search);
+        $query = $this
+            ->createQueryBuilder('mission')
+            ->orderBy('mission.created_at', 'DESC');
+
+            if(!empty($search->job)) {
+                $query = $query 
+                        ->andWhere('mission.title LIKE :job')
+                        ->setParameter('job', "%{$search->job}%");
+            } 
+            
+            if(!empty($search->city)) {
+                $query = $query 
+                        ->andWhere('mission.city LIKE :city')
+                        ->setParameter('city', "%{$search->city}%");
+            }
+
+            if(!empty($search->min) && $ignoreSalary = false){
+                $query = $query 
+                ->andWhere('mission.salary >= :min')
+                ->setParameter('min', $search->min);
+            }
+            
+
+            if(!empty($search->max)){
+                $query = $query 
+                ->andWhere('mission.salary <= :max')
+                ->setParameter('max', $search->max);
+            }
+            return $query;
     }
 
     /**
@@ -45,7 +102,8 @@ class MissionRepository extends ServiceEntityRepository
      */
     public function findLatest()
     {
-        return $this->createQueryBuilder('p')
+        return $this->createQueryBuilder('mission')
+        ->orderBy('mission.created_at', 'DESC')
         ->setMaxResults(10)
         ->getQuery()
         ->getResult();
