@@ -49,10 +49,12 @@ class AdminApplicationController extends AbstractController
      */
     public function show(Application $application, Request $request)
     {
+        
 
-        $is_accepted = $application->getIsAccepted();
+        $is_accepted = $application->getIsAccepted(); //null
         $form = $this->createForm(StatusApplicationType::class, $application);
         $form->handleRequest($request);
+
         
         if ($form->isSubmitted() && $form->isValid()) {
             if ($application == true) {

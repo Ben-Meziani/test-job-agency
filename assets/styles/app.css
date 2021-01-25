@@ -91,4 +91,16 @@ a:active{
   transition: 0.3s;
 }
 
+/* Design of registration form*/
+
+#ui{
+  background-color: rgb(163, 162, 162);
+  padding: 30px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+#ui label{
+  color: #fff
+}
 

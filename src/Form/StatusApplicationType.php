@@ -16,8 +16,9 @@ class StatusApplicationType extends AbstractType
         $builder->add('is_accepted', ChoiceType::class, [
                 
                 'choices'  => [
-                'accepted' => true,
-                'denied' => false,
+                'En attente' => null,
+                'Accepter candidature' => true,
+                'Refuser candidature' => false,
             ],
         ]);
     }

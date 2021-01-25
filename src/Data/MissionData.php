@@ -14,13 +14,13 @@ class MissionData {
     /**
      * @var string
      */
-    public $q= '';
+    public $job= '';
 
     
     /**
      * @var string
      */
-    public $p= '';
+    public $city= '';
 
     /**
      * @var null|integer

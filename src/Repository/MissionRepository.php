@@ -64,20 +64,21 @@ class MissionRepository extends ServiceEntityRepository
 
     private function getSearchQuery(MissionData $search, $ignoreSalary = false): QueryBuilder
     {
+       // dd($search);
         $query = $this
             ->createQueryBuilder('mission')
             ->orderBy('mission.created_at', 'DESC');
 
-            if(!empty($search->q)) {
+            if(!empty($search->job)) {
                 $query = $query 
-                        ->andWhere('mission.title LIKE :q')
-                        ->setParameter('q', "%{$search->q}%");
+                        ->andWhere('mission.title LIKE :job')
+                        ->setParameter('job', "%{$search->job}%");
             } 
             
-            if(!empty($search->p)) {
+            if(!empty($search->city)) {
                 $query = $query 
-                        ->andWhere('mission.city LIKE :p')
-                        ->setParameter('p', "%{$search->p}%");
+                        ->andWhere('mission.city LIKE :city')
+                        ->setParameter('city', "%{$search->city}%");
             }
 
             if(!empty($search->min) && $ignoreSalary = false){

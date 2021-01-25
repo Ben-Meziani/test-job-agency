@@ -6,8 +6,8 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -15,10 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Vich\UploaderBundle\Form\Type\VichImageType;
-
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -46,31 +42,34 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('address', TextType::class, [
                 'label' => false,
+                'required' => false,
                 'attr' => array(
                     'placeholder' => 'Votre adresse ici'
                 ) 
             ])
             ->add('postalCode', NumberType::class, [
                 'label' => false,
+                'required' => false,
                 'attr' => array(
                     'placeholder' => 'Votre code postal ici'
                 ) 
             ])
             ->add('country', TextType::class, [
                 'label' => false,
+                'required' => false,
                 'attr' => array(
                     'placeholder' => 'Votre pays ici'
                 ) 
             ])
             
-            ->add('phone', NumberType::class, [
+            ->add('phone', null, [
                 'label' => false,
                 'attr' => array(
-                    'placeholder' => 'Votre numéro de téléphone'
-                ) 
+                    'placeholder' => 'Votre numéro de téléphone ici'
+                ),
             ])
              ->add('agreeTerms', CheckboxType::class, [
-                'label' => false,
+                'label' => 'Accepter les conditions générales d\'utilisation',
                  'mapped' => false,
                  'constraints' => [
                      new IsTrue([
@@ -79,7 +78,7 @@ class RegistrationFormType extends AbstractType
                  ],
              ])
             
-            ->add('password', RepeatedType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 'attr' => array(
                 'placeholder' => 'Votre confirmation de mot de passe ici'
             ),
@@ -96,9 +95,6 @@ class RegistrationFormType extends AbstractType
                 'placeholder' => 'Votre confirmation de mot de passe ici'
             )],
             ])
-            ->add('send', SubmitType::class, [
-                'label' => 'Valider'
-            ]);
         ;
     }
 

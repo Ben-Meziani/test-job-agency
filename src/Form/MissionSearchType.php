@@ -15,14 +15,14 @@ class MissionSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('q', TextType::class, [
+            ->add('job', TextType::class, [
             'label' => false,
             'required' =>false,
             'attr' => [
                 'placeholder' => 'Métier'
             ]
             ])
-            ->add('p', TextType::class, [
+            ->add('city', TextType::class, [
                 'label' => false,
                 'required' =>false,
                 'attr' => [

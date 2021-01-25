@@ -29,18 +29,20 @@
 		<div class="slider owl-carousel">
 			{% for mission in missions %}
 				<div class="card">
-					<div class="content">
-						<div class="title">Poste: {{ mission.title }}</div>
+					<div class="content d-flex flex-column">
+						<div class="title">Poste:
+							{{ mission.title }}</div>
 						<p>Ville :
 							<strong>{{ mission.city }}</strong>
 						</p>
 						<p>Salaire:
 							{{ mission.salary }}
-							€</p>
-						<a href="{{ path('mission.show', {id: mission.id, slug: mission.slug}) }}">
-							<div>
-								<button class="btn btn-danger">Lire plus</button>
-							</div>
+							€
+						</p>
+					</div>
+					<div class="mx-auto mb-2">
+						<a href="{{ path('mission.show', {id: mission.id, slug: mission.slug}) }}" class="d-inline-block">
+							<button class="btn btn-danger">Lire plus</button>
 						</a>
 					</div>
 				</div>
