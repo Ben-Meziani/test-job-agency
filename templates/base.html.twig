@@ -30,11 +30,11 @@
 				{% set route_name = app.request.attributes.get('_route') %}
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item ">
+						<li class="nav-item mr-5">
 							<a {% if route_name == "mission.index" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{{ path('mission.index') }}">Missions</a>
 						</li>
 						{% if app.user %}
-							<li class="nav-item ">
+							<li class="nav-item mr-5">
 								<a class="nav-link">Welcome
 									{{ app.user.name }}</a>
 							</li>
@@ -67,7 +67,7 @@
 							</ul>
 						{% endif %}
 						{% if app.user %}
-							<li class="nav-item">
+							<li class="nav-item d-flex justify-content-end">
 								<a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
 							</li>
 						{% endif %}
