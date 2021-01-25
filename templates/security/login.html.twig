@@ -1,32 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Se connecter!{% endblock %}
+{% block title %}Se connecter!
+{% endblock %}
 
 {% block body %}
-  <div class="container">
-    <form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+	<div class="container text-center">
+		<form method="post">
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            Vous êtes connecté en tant que : {{ app.user.username }}, <a href="{{ path('app_logout') }}">Déconnection</a>
-        </div>
-    {% endif %}
+   	{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+          {% for message in app.flashes('warning') %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+        {% endfor %}
+			<h1 class="h3 mb-3 mt-5 font-weight-normal">Connectez-vous</h1>
+			<div class="row mt-5">
+				<div class="col-6">
+					<label for="inputEmail">Email</label>
+					<input type="email" value="" name="email" id="inputEmail" class="form-control" placeholder="email@email.com" required autofocus>
+				</div>
+                <br>
+				<div class="col-6">
+					<label for="inputPassword">Mot de passe</label>
+					<input type="password" name="password" id="inputPassword" placeholder="Votre MDP ici" class="form-control" required>
+				</div>
+			</div>
 
-    <h1 class="h3 mb-3 font-weight-normal">Connectez-vous</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}">
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Se connecter
-    </button>
-</form>
-  </div>
+			<button class="btn btn-lg btn-primary mt-5" type="submit">
+				Se connecter
+			</button>
+			<p>Mot de passe oublié ? :
+				<a href="{{ path('app_forgotten_password') }}">Recevoir un lien par email</a>
+			</p>
+		</form>
+	</div>
 {% endblock %}
