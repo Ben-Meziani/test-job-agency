@@ -47,31 +47,37 @@ class AdminApplicationController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show(Application $application, Request $request)
+    public function show(Application $applicationStatus, Request $request)
     {
         
 
-        $is_accepted = $application->getIsAccepted(); //null
-        $form = $this->createForm(StatusApplicationType::class, $application);
+        // On initialise le formulaire
+        $form = $this->createForm(StatusApplicationType::class, $applicationStatus);
+
+        //On traite le formulaire
         $form->handleRequest($request);
 
         
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($application == true) {
+            if ($applicationStatus == true) {
                 $this->em->flush();
                 $this->addFlash('success', 'La candidature a bien été acceptée');
-                return $this->redirectToRoute('admin.application.index');
-            } elseif ($application == false) {
+                return $this->redirectToRoute('admin.application.index', [
+                    "application" => $applicationStatus,
+                ]);
+            } elseif ($applicationStatus == false) {
                 $this->em->flush();
                 $this->addFlash('success', 'La candidature a bien été refusé');
-                return $this->redirectToRoute('admin.application.index' );
+                return $this->redirectToRoute('admin.application.index', [
+                    "application_status" => $applicationStatus,
+                ] );
             }
         }
 
 
         return $this->render('admin/application/show.html.twig', [
 
-            "application" => $application,
+            "application" => $applicationStatus,
             "form" => $form->createView()
         ]);
     }
