@@ -106,7 +106,7 @@ class SecurityController extends AbstractController
             $this->addFlash('message', 'E-mail de réinitialisation du mot de passe envoyé !');
 
             // On redirige vers la page de login
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('home');
         }
 
         // On envoie le formulaire à la vue
