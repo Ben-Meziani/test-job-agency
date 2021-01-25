@@ -50,7 +50,16 @@
 							<ul class="navbar-nav mr-5">
 								<li class="nav-item">
 									{% if "ROLE_RECRUITER"  in app.user.roles %}
-										<li class="nav-item dropdown">
+									<li class="nav-item dropdown">
+												<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												Admin
+												</a>
+												<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+												<a class="dropdown-item" href="{{ path('admin.application.index') }}">Consulter les candidatures</a>
+												<a class="dropdown-item" href="{{ path('admin.mission.new') }}">Créer une nouvelle mission</a>												
+												</div>
+											</li>
+											<li class="nav-item dropdown">
 											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 												Admin
 											</a>
