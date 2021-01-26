@@ -94,7 +94,6 @@ class AdminApplicationController extends AbstractController
     {
 
         if($application->getIsAccepted() != null){
-            //dd('nique');
         }
         //             condition ? si vrai : si faux 
         $isAccepted = $bool != 1 ? false : true;
