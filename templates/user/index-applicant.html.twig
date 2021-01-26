@@ -20,29 +20,32 @@
             <tr>
                 <th>Titre</th>
                 <th>Actions</th>
+                <th>Statut </th>
             </tr>
         </thead>
         <tbody>
             {% for application in applications %}
             <tr>
                 <td>{{ application.mission.title }}</td>
-                <td>{{ application.mission.id }}</td>
                 <td>
                     <a href="{{ path('mission.show', {slug: application.mission.slug, id: application.mission.id})}}" class="btn btn-secondary">Voir l'offre</a>
                     <form method="post" action="{{ path('user.delete.application', {id: application.id}) }}"
                     style="display: inline-block" onsubmit="return confirm('Etes-vous vraiment sûr ?')">
                     <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ application.id) }}">
-                        <button class="btn btn-danger">Supprimer</button>
-                        
-                        {# {% if application == false %}
-                            <p>Candidature refusée</p>
-                        {% elseif application == null %}
-                            <p>Candidature en attente</p>
-                        {% else application == true %}
-                            <p>Candidature acceptée</p>
-                        {% endif %} #}
+                        <button class="btn btn-danger">Supprimer</button>   
                     </form>
+                </td>
+                <td>
+                	{% if  application.isAccepted is null %}
+									   <p>En attente de traitement</p>
+								{% elseif  application.isAccepted == false %}
+									<p>
+										Candidature refusée
+									</p>
+							{% elseif  application.isAccepted == true %}
+								<p>Candidature acceptée</p>
+							{% endif %}
                 </td>
            </tr>
             {% endfor %}

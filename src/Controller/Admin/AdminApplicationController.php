@@ -36,50 +36,74 @@ class AdminApplicationController extends AbstractController
     public function index()
     {
         $applications = $this->appRepository->findLatest();
+
+
         return $this->render('admin/application/index.html.twig', compact('applications'));
     }
 
     //Edit a application 
 
     /** 
-     * @Route("/admin/application/{id}", name="admin.application.edit", methods="GET|POST")
+     * @Route("/admin/application/{id}", name="admin.application.show", methods="GET")
      * @param Application $application
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show(Application $applicationStatus, Request $request)
+    public function show(Application $application, Request $request)
     {
-        
+       
+        // // On initialise le formulaire
+        // $form = $this->createForm(StatusApplicationType::class, $application);
 
-        // On initialise le formulaire
-        $form = $this->createForm(StatusApplicationType::class, $applicationStatus);
-
-        //On traite le formulaire
-        $form->handleRequest($request);
 
         
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($applicationStatus == true) {
-                $this->em->flush();
-                $this->addFlash('success', 'La candidature a bien été acceptée');
-                return $this->redirectToRoute('admin.application.index', [
-                    "application" => $applicationStatus,
-                ]);
-            } elseif ($applicationStatus == false) {
-                $this->em->flush();
-                $this->addFlash('success', 'La candidature a bien été refusé');
-                return $this->redirectToRoute('admin.application.index', [
-                    "application_status" => $applicationStatus,
-                ] );
-            }
-        }
+        // $form->handleRequest($request);
+        // if ($form->isSubmitted()  ) {
+        //     dd($form->getErrors());
+        //     $answer = $form->get('is_accepted')->getData();
+        //     if ($answer == true) {
+                
+        //         $this->em->flush();
+        //         $this->addFlash('success', 'La candidature a bien été acceptée');
+        //         return $this->redirectToRoute('admin.application.index', [
+        //             "application" => $application,
+        //         ]);
+        //     } elseif ($answer == false) {
+        //         $this->em->flush();
+        //         $this->addFlash('success', 'La candidature a bien été refusé');
+        //         return $this->redirectToRoute('admin.application.index', [
+        //             "application_status" => $application,
+
+        //         ] );
+        //     }
+        // }
 
 
         return $this->render('admin/application/show.html.twig', [
 
-            "application" => $applicationStatus,
-            "form" => $form->createView()
+            "application" => $application,
         ]);
+    }
+
+    /**
+     * 
+     * @Route("/admin/application/{id}/{bool}", requirements={"bool" = "[01]"}, name="admin.application.editStatus", methods="GET"))
+     *
+     */
+    public function editStatus(Application $application, $bool, Request $request)
+    {
+
+        if($application->getIsAccepted() != null){
+            //dd('nique');
+        }
+        //             condition ? si vrai : si faux 
+        $isAccepted = $bool != 1 ? false : true;
+
+        $application->setIsAccepted($isAccepted);
+        $this->em->flush();
+
+    
+       return $this->redirectToRoute('admin.application.index');
     }
 
     //Delete a application

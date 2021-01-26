@@ -21,8 +21,9 @@ class ApplicationType extends AbstractType
             ]
             )
             ->add('cvFile', VichImageType::class,
+            
             [
-                'label' => 'CV *'
+                'label' => 'CV *',
             ]) 
             ->add('motivationLetter', TextareaType::class,
             [

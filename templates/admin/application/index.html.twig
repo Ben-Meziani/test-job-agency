@@ -4,44 +4,55 @@
 
 {% block body %}
 
-<div class="container" mt-4>
+	<div class="container" mt-4>
 
-    <h1 class="mt-5 mb-5 text-center">Gérer les candidatures</h1>
+		<h1 class="mt-5 mb-5 text-center">Gérer les candidatures</h1>
 
-    {% for message in app.flashes('success') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
-    {% endfor %}
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Candidat(e)</th>
+					<th>Actions</th>
+					<th>Statut</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for application in applications %}
+					<tr>
+						<td>{{ application.user.lastname }}
+							{{ application.user.name }}</td>
+						<td>
+							<a href="{{ path('admin.application.show', {id: application.id})}}" class="btn btn-secondary">Voir la candidature</a>
+							<form method="post" action="{{ path('admin.application.delete', {id: application.id}) }}" style="display: inline-block" onsubmit="return confirm('Etes-vous vraiment sûr ?')">
+								<input type="hidden" name="_method" value="DELETE">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ application.id) }}">
+								<button class="btn btn-danger">Supprimer</button>
+							</form>
+						</td>
+						<td>
+                        
+							{% if  application.isAccepted is null %}
+									   <p>En attente de traitement</p>
+								{% elseif  application.isAccepted == false %}
+									<p>
+										Candidature refusée
+									</p>
+							{% elseif  application.isAccepted == true %}
+								<p>Candidature acceptée</p>
+							{% endif %}
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Candidat(e)</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for application in applications %}
-            <tr>
-                <td>{{ application.user.lastname }} {{ application.user.name }}</td>
-                <td>
-                    <a href="{{ path('admin.application.edit', {id: application.id})}}" class="btn btn-secondary">Voir la candidature</a>
-                    <form method="post" action="{{ path('admin.application.delete', {id: application.id}) }}"
-                        style="display: inline-block" onsubmit="return confirm('Etes-vous vraiment sûr ?')">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ application.id) }}">
-                        <button class="btn btn-danger">Supprimer</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-   
-</div>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
+	</div>
 
 
 {% endblock %}
-

@@ -1,48 +1,48 @@
-
-
-
 {% extends 'base.html.twig' %}
 
 {% block title 'Gérer vos candidatures' %}
 
 {% block body %}
 
-<div class="container" mt-4>
+	<div class="container" mt-4>
 
-    <h1 class="mt-5 mb-5 text-center">Candidature de {{application.user.name}} {{application.user.lastname}}</h1>
+		<h1 class="mt-5 mb-5 text-center">Candidature de
+			{{application.user.name}}
+			{{application.user.lastname}}</h1>
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
-            <th>Motivations</th>
-            <th>cv</th>
-            <th>Poste</th>
-            <th>Statut</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{application.user.lastname}}</td>
-            <td>{{application.user.name}}</td>
-            <td>{{application.user.email}}</td>
-            <td>{{application.motivationLetter}}</td>
-            <td><a href="{{ asset('/files/cvs/' ~ application.cv) }}" download >Télécharger </a></td>
-            <td>{{application.mission.title}}</td>
-            <td>
-              <form action="">
-                {{ form_start(form) }}{{ form_row(form.is_accepted) }}{{ form_end(form) }}
-                <button class="btn btn-danger">Soumettre</button>
-              </form>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Email</th>
+					<th>Motivations</th>
+					<th>cv</th>
+					<th>Poste</th>
+					<th>Statut</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{application.user.lastname}}</td>
+					<td>{{application.user.name}}</td>
+					<td>{{application.user.email}}</td>
+					<td>{{application.motivationLetter}}</td>
+					<td>
+						<a href="{{ asset('/files/cvs/' ~ application.cv) }}" download>Télécharger
+						</a>
+					</td>
+					<td>{{application.mission.title}}</td>
+					<td>
 
+							{# {{ form_start(form) }}{{ form_row(form.is_accepted) }}
+							{{ form_end(form) }} #}
+							<button type="submit"><a href={{ path('admin.application.editStatus', {id:application.id, bool:1 }) }}>Accepter</a></button>
+							<button type="submit"><a href={{ path('admin.application.editStatus', {id:application.id, bool:0 }) }}>Refuser</a></button>
 
-
-{% endblock %}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>{% endblock %}

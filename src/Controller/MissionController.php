@@ -85,6 +85,8 @@ class MissionController extends AbstractController
 
             $application->setMission($mission);
             $application->setUser($this->getUser());
+
+
             $this->em->persist($application);
             $this->em->flush();
             $this->addFlash('success', 'Votre candidature à bien été soumise');
