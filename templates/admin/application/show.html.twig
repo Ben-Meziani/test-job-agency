@@ -35,11 +35,17 @@
 					<td>{{application.mission.title}}</td>
 					<td>
 
-							{# {{ form_start(form) }}{{ form_row(form.is_accepted) }}
-							{{ form_end(form) }} #}
-							<button type="submit"><a href={{ path('admin.application.editStatus', {id:application.id, bool:1 }) }}>Accepter</a></button>
-							<button type="submit"><a href={{ path('admin.application.editStatus', {id:application.id, bool:0 }) }}>Refuser</a></button>
+						{# {{ form_start(form) }}{{ form_row(form.is_accepted) }}
+																									{{ form_end(form) }} #}
+						{% if application.isAccepted is same as (true) or application.isAccepted is same as (false) %}
+							<button class="btn btn-success" type="button" disabled>Accepter</button>
+							<button class="btn btn-danger" type="button" disabled>Refuser</button>
+						{% else %}
+								<a class="btn btn-success" type="submit" href={{ path('admin.application.editStatus', {id:application.id, bool:1 } ) }}>Accepter</a>
+						
+								<a class="btn btn-danger" href={{ path('admin.application.editStatus', {id:application.id, bool:0 } ) }}>Refuser</a>
 
+						{% endif %}
 					</td>
 				</tr>
 			</tbody>

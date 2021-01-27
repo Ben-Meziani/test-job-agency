@@ -93,22 +93,4 @@ public function edit(Mission $mission, Request $request)
     ]);
 }
 
-//Delete a mission
-
-/**
- *@Route("/admin/mission/{id}/delete", name="admin.mission.delete", methods="DELETE")
- * @param Mission $mission
- * @return \Symfony\Component\HttpFoundation\RedirectResponse
- */
-public function delete(Mission $mission,Request $request)
-{
-    if ($this->isCsrfTokenValid('delete'. $mission->getId(), $request->get('_token'))) {
-         $this->em->remove($mission);
-         $this->em->flush();
-         $this->addFlash('success', 'Bien supprimé avec succès');
-    }
-   return $this->redirectToRoute('admin.mission.index');
-}
-
-
 }

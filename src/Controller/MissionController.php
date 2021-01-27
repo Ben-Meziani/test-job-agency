@@ -78,10 +78,6 @@ class MissionController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-            if (in_array('ROLE_RECRUITER',$this->getUser()->getRoles())){
-                $this->addFlash('failed', "Vous êtes recruteur et vous n'êtes pas authorisé(e) à candidater");
-                return $this->redirectToRoute('admin.application.index',['id'=> $this->getUser()->getId()]);
-            }
 
             $application->setMission($mission);
             $application->setUser($this->getUser());

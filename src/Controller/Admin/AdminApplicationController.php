@@ -92,12 +92,12 @@ class AdminApplicationController extends AbstractController
      */
     public function editStatus(Application $application, $bool, Request $request)
     {
-
+        
         if($application->getIsAccepted() != null){
         }
         //             condition ? si vrai : si faux 
         $isAccepted = $bool != 1 ? false : true;
-
+        
         $application->setIsAccepted($isAccepted);
         $this->em->flush();
 
