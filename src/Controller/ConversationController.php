@@ -36,7 +36,7 @@ class ConversationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="newConversations", methods={"GET","POST"})
+     * @Route("/", name="newConversations", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
      * @throws \Exception
@@ -61,7 +61,6 @@ class ConversationController extends AbstractController
             $otherUser->getId(),
             $this->getUser()->getId()
         );
-
 
         $conversation = new Conversation();
         $participant = new Participant();
@@ -88,5 +87,14 @@ class ConversationController extends AbstractController
         return $this->json([
             'id' => $conversation->getId()
         ], Response::HTTP_CREATED, [], []);
+    }
+
+  /**
+     * @Route("/", name="getConversations", methods={"GET"})
+     */
+    public function getConvs() {
+        $conversations = $this->conversationRepository->findConversationsByUser($this->getUser()->getId());
+        dd($conversations);
+        return $this->json($conversations);
     }
 }
